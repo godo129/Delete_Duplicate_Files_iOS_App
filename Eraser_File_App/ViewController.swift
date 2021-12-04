@@ -14,13 +14,15 @@ class ViewController: UIViewController {
     
     let tableView = UITableView()
     
-    var imageList: [Data] = []
+    var imageDataList: [Data] = []
     
-    var duplicateImage: [UIImage] = []
+    var duplicateImageData: [Data] = []
     
-    var duplicateData: [PHAsset] = []
+    var duplicateLists: [Data:[PHAsset]] = [:]
     
     let imageView = UIImageView()
+    
+    let deleteButton = UIButton()
     
     
     
@@ -42,6 +44,10 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        deleteButton.frame = CGRect(x: 400, y: 50, width: 50, height: 50)
+        deleteButton.backgroundColor = .systemRed
+        
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -65,9 +71,24 @@ class ViewController: UIViewController {
         reqeustsPhotoPermission()
         registerPhotoLibrary()
         
-        print(duplicateData)
-        print(duplicateImage)
+        print(duplicateImageData)
+        print(duplicateLists)
+        
+        view.addSubview(deleteButton)
+        
+        deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
 
+        
+    }
+    
+    @objc private func deleteButtonTapped() {
+        for datum in duplicateImageData {
+            
+            for asset in duplicateLists[datum]! {
+                PHPhotoLibrary.shared().performChanges({PHAssetChangeRequest.deleteAssets([asset] as NSFastEnumeration)}, completionHandler: nil)
+                
+            }
+        }
         
     }
     
@@ -138,13 +159,21 @@ class ViewController: UIViewController {
             
             imageManager.requestImage(for: asset, targetSize: CGSize(width: 300, height: 300), contentMode: .aspectFit, options: nil) { image, _ in
                 
-                if self.imageList.contains((image?.pngData())!) {
+                if self.imageDataList.contains((image?.pngData())!) {
                     self.imageView.image = image
-                    self.duplicateData.append(asset)
-                    self.duplicateImage.append(image!)
+                    
+                    if !self.duplicateImageData.contains((image?.pngData())!) {
+                        self.duplicateImageData.append((image?.pngData())!)
+                        self.duplicateLists[(image?.pngData())!] = [asset]
+                    } else {
+                        var dupData = self.duplicateLists[(image?.pngData())!]
+                        dupData?.append(asset)
+                        self.duplicateLists[(image?.pngData())!] = dupData
+                    }
+                    
                     print(idx)
                 } else {
-                    self.imageList.append((image?.pngData())!)
+                    self.imageDataList.append((image?.pngData())!)
                 }
 
                 

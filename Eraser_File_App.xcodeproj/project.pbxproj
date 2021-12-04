@@ -15,6 +15,7 @@
 		F1808332275B300B00F6A9CC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1808330275B300B00F6A9CC /* LaunchScreen.storyboard */; };
 		F180833A275B613D00F6A9CC /* ImagesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1808339275B613D00F6A9CC /* ImagesCollectionViewCell.swift */; };
 		F180833C275B8BF100F6A9CC /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F180833B275B8BF100F6A9CC /* HomeViewController.swift */; };
+		F180833F275B986100F6A9CC /* ImageDatas.swift in Sources */ = {isa = PBXBuildFile; fileRef = F180833E275B986100F6A9CC /* ImageDatas.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		F1808333275B300B00F6A9CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F1808339275B613D00F6A9CC /* ImagesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesCollectionViewCell.swift; sourceTree = "<group>"; };
 		F180833B275B8BF100F6A9CC /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		F180833E275B986100F6A9CC /* ImageDatas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDatas.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,13 +62,14 @@
 		F1808324275B300900F6A9CC /* Eraser_File_App */ = {
 			isa = PBXGroup;
 			children = (
+				F1808341275B988000F6A9CC /* Datas */,
 				F180833D275B91B300F6A9CC /* Resource */,
 				F1808329275B300900F6A9CC /* ViewController.swift */,
+				F180833B275B8BF100F6A9CC /* HomeViewController.swift */,
 				F1808339275B613D00F6A9CC /* ImagesCollectionViewCell.swift */,
 				F180832B275B300900F6A9CC /* Main.storyboard */,
 				F180832E275B300B00F6A9CC /* Assets.xcassets */,
 				F1808330275B300B00F6A9CC /* LaunchScreen.storyboard */,
-				F180833B275B8BF100F6A9CC /* HomeViewController.swift */,
 				F1808333275B300B00F6A9CC /* Info.plist */,
 			);
 			path = Eraser_File_App;
@@ -79,6 +82,14 @@
 				F1808327275B300900F6A9CC /* SceneDelegate.swift */,
 			);
 			path = Resource;
+			sourceTree = "<group>";
+		};
+		F1808341275B988000F6A9CC /* Datas */ = {
+			isa = PBXGroup;
+			children = (
+				F180833E275B986100F6A9CC /* ImageDatas.swift */,
+			);
+			path = Datas;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -154,6 +165,7 @@
 				F180833C275B8BF100F6A9CC /* HomeViewController.swift in Sources */,
 				F180832A275B300900F6A9CC /* ViewController.swift in Sources */,
 				F1808326275B300900F6A9CC /* AppDelegate.swift in Sources */,
+				F180833F275B986100F6A9CC /* ImageDatas.swift in Sources */,
 				F180833A275B613D00F6A9CC /* ImagesCollectionViewCell.swift in Sources */,
 				F1808328275B300900F6A9CC /* SceneDelegate.swift in Sources */,
 			);
