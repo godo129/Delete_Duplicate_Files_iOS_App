@@ -14,11 +14,7 @@ class ViewController: UIViewController {
     
     let tableView = UITableView()
     
-    var imageDataList: [Data] = []
     
-    var duplicateImageData: [Data] = []
-    
-    var duplicateLists: [Data:[PHAsset]] = [:]
     
     let imageView = UIImageView()
     
@@ -85,10 +81,16 @@ class ViewController: UIViewController {
         for datum in duplicateImageData {
             
             for asset in duplicateLists[datum]! {
+                
+                
                 PHPhotoLibrary.shared().performChanges({PHAssetChangeRequest.deleteAssets([asset] as NSFastEnumeration)}, completionHandler: nil)
                 
             }
+            
         }
+        duplicateLists.removeAll()
+        duplicateImageData.removeAll()
+
         
     }
     
@@ -147,10 +149,7 @@ class ViewController: UIViewController {
         fetchOption.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         
         self.fetchResult = PHAsset.fetchAssets(in: cameraRollCollection, options: fetchOption)
-        
-        
-        
-        
+   
         
         for idx in 0..<self.fetchResult.count {
             
@@ -159,21 +158,21 @@ class ViewController: UIViewController {
             
             imageManager.requestImage(for: asset, targetSize: CGSize(width: 300, height: 300), contentMode: .aspectFit, options: nil) { image, _ in
                 
-                if self.imageDataList.contains((image?.pngData())!) {
+                if imageDataList.contains((image?.pngData())!) {
                     self.imageView.image = image
                     
-                    if !self.duplicateImageData.contains((image?.pngData())!) {
-                        self.duplicateImageData.append((image?.pngData())!)
-                        self.duplicateLists[(image?.pngData())!] = [asset]
+                    if !duplicateImageData.contains((image?.pngData())!) {
+                        duplicateImageData.append((image?.pngData())!)
+                        duplicateLists[(image?.pngData())!] = [asset]
                     } else {
-                        var dupData = self.duplicateLists[(image?.pngData())!]
+                        var dupData = duplicateLists[(image?.pngData())!]
                         dupData?.append(asset)
-                        self.duplicateLists[(image?.pngData())!] = dupData
+                        duplicateLists[(image?.pngData())!] = dupData
                     }
                     
                     print(idx)
                 } else {
-                    self.imageDataList.append((image?.pngData())!)
+                    imageDataList.append((image?.pngData())!)
                 }
 
                 
@@ -181,8 +180,7 @@ class ViewController: UIViewController {
        
         }
         
-        
-        
+  
         OperationQueue.main.addOperation {
             self.tableView.reloadData()
         }
@@ -220,7 +218,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let asset = self.fetchResult?[indexPath.row]
-            
             PHPhotoLibrary.shared().performChanges({PHAssetChangeRequest.deleteAssets([asset] as NSFastEnumeration)}, completionHandler: nil)
             
         }
