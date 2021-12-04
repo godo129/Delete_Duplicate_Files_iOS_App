@@ -10,7 +10,6 @@ import Photos
 
 class DuplicateImageViewController: UIViewController {
 
-    
     var collectionView: UICollectionView!
     
     override func viewDidLoad() {
@@ -65,20 +64,22 @@ extension DuplicateImageViewController: UICollectionViewDataSource, UICollection
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        collectionView.deleteItems(at: [indexPath])
+        
         
         let assets = duplicateLists[duplicateImageData[indexPath.row]]
         
-        for asset in assets! {
-            PHPhotoLibrary.shared().performChanges({PHAssetChangeRequest.deleteAssets([asset] as NSFastEnumeration)}, completionHandler: nil)
+        
+        PHPhotoLibrary.shared().performChanges({PHAssetChangeRequest.deleteAssets(assets! as NSFastEnumeration)}) { success, error in
+            if success {
+                duplicateLists.removeValue(forKey: duplicateImageData[indexPath.row])
+                duplicateImageData.remove(at: indexPath.row)
+                collectionView.deleteItems(at: [indexPath])
+            } else {
+                return
+            }
         }
 
-        
-        duplicateLists.removeValue(forKey: duplicateImageData[indexPath.row])
-        duplicateImageData.remove(at: indexPath.row)
-        
-        
-        
+
     }
     
     
@@ -95,6 +96,7 @@ extension DuplicateImageViewController: PHPhotoLibraryChangeObserver {
 
         fetchResult = changes.fetchResultAfterChanges
 
+        
         OperationQueue.main.addOperation {
             self.collectionView.reloadSections(IndexSet(0...0))
         }
