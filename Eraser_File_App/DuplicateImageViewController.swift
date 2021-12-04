@@ -6,19 +6,24 @@
 //
 
 import UIKit
+import Photos
 
 class DuplicateImageViewController: UIViewController {
 
     
+    var collectionView: UICollectionView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        registerPhotoLibrary()
         
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 150, height: 150)
         layout.scrollDirection = .horizontal
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
         collectionView.frame = view.bounds
         
@@ -29,6 +34,10 @@ class DuplicateImageViewController: UIViewController {
         
         view.addSubview(collectionView)
 
+    }
+    
+    private func registerPhotoLibrary() {
+        PHPhotoLibrary.shared().register(self)
     }
     
     override func viewDidLayoutSubviews() {
@@ -54,7 +63,41 @@ extension DuplicateImageViewController: UICollectionViewDataSource, UICollection
         
         return cell
     }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deleteItems(at: [indexPath])
+        
+        let assets = duplicateLists[duplicateImageData[indexPath.row]]
+        
+        for asset in assets! {
+            PHPhotoLibrary.shared().performChanges({PHAssetChangeRequest.deleteAssets([asset] as NSFastEnumeration)}, completionHandler: nil)
+        }
+
+        
+        duplicateLists.removeValue(forKey: duplicateImageData[indexPath.row])
+        duplicateImageData.remove(at: indexPath.row)
+        
+        
+        
+    }
     
     
+    
+}
+
+
+
+extension DuplicateImageViewController: PHPhotoLibraryChangeObserver {
+    func photoLibraryDidChange(_ changeInstance: PHChange) {
+        guard let asset = fetchResult, let changes = changeInstance.changeDetails(for: asset) else {
+            return
+        }
+
+        fetchResult = changes.fetchResultAfterChanges
+
+        OperationQueue.main.addOperation {
+            self.collectionView.reloadSections(IndexSet(0...0))
+        }
+    }
     
 }

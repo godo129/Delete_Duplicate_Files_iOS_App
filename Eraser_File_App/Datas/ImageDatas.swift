@@ -14,3 +14,5 @@ var imageDataList: [Data] = []
 var duplicateImageData: [Data] = []
 
 var duplicateLists: [Data:[PHAsset]] = [:]
+
+var fetchResult: PHFetchResult<PHAsset>!

@@ -10,7 +10,7 @@ import Photos
 
 class ViewController: UIViewController {
     
-    var fetchResult: PHFetchResult<PHAsset>!
+
     
     let tableView = UITableView()
     
@@ -40,6 +40,12 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        // 초기화
+        duplicateLists = [:]
+        duplicateImageData = []
+        imageDataList = []
         
         deleteButton.frame = CGRect(x: 400, y: 50, width: 50, height: 50)
         deleteButton.backgroundColor = .systemRed
@@ -148,10 +154,10 @@ class ViewController: UIViewController {
         let fetchOption = PHFetchOptions()
         fetchOption.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         
-        self.fetchResult = PHAsset.fetchAssets(in: cameraRollCollection, options: fetchOption)
+        fetchResult = PHAsset.fetchAssets(in: cameraRollCollection, options: fetchOption)
    
         
-        for idx in 0..<self.fetchResult.count {
+        for idx in 0..<fetchResult.count {
             
             
             let asset = fetchResult.object(at: idx)
@@ -191,7 +197,7 @@ class ViewController: UIViewController {
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.fetchResult.count
+        return fetchResult.count
     }
 
     
@@ -200,7 +206,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             fatalError("The cell name not exist.")
         }
         
-        guard let asset: PHAsset = self.fetchResult?.object(at: indexPath.row) else {
+        guard let asset: PHAsset = fetchResult?.object(at: indexPath.row) else {
             return cell
         }
         
@@ -217,7 +223,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let asset = self.fetchResult?[indexPath.row]
+            let asset = fetchResult?[indexPath.row]
             PHPhotoLibrary.shared().performChanges({PHAssetChangeRequest.deleteAssets([asset] as NSFastEnumeration)}, completionHandler: nil)
             
         }
