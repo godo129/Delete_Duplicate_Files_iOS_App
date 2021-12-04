@@ -13,6 +13,8 @@
 		F180832D275B300900F6A9CC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F180832B275B300900F6A9CC /* Main.storyboard */; };
 		F180832F275B300B00F6A9CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F180832E275B300B00F6A9CC /* Assets.xcassets */; };
 		F1808332275B300B00F6A9CC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1808330275B300B00F6A9CC /* LaunchScreen.storyboard */; };
+		F180833A275B613D00F6A9CC /* ImagesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1808339275B613D00F6A9CC /* ImagesCollectionViewCell.swift */; };
+		F180833C275B8BF100F6A9CC /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F180833B275B8BF100F6A9CC /* HomeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		F180832E275B300B00F6A9CC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F1808331275B300B00F6A9CC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F1808333275B300B00F6A9CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F1808339275B613D00F6A9CC /* ImagesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesCollectionViewCell.swift; sourceTree = "<group>"; };
+		F180833B275B8BF100F6A9CC /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,9 +63,11 @@
 				F1808325275B300900F6A9CC /* AppDelegate.swift */,
 				F1808327275B300900F6A9CC /* SceneDelegate.swift */,
 				F1808329275B300900F6A9CC /* ViewController.swift */,
+				F1808339275B613D00F6A9CC /* ImagesCollectionViewCell.swift */,
 				F180832B275B300900F6A9CC /* Main.storyboard */,
 				F180832E275B300B00F6A9CC /* Assets.xcassets */,
 				F1808330275B300B00F6A9CC /* LaunchScreen.storyboard */,
+				F180833B275B8BF100F6A9CC /* HomeViewController.swift */,
 				F1808333275B300B00F6A9CC /* Info.plist */,
 			);
 			path = Eraser_File_App;
@@ -137,8 +143,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F180833C275B8BF100F6A9CC /* HomeViewController.swift in Sources */,
 				F180832A275B300900F6A9CC /* ViewController.swift in Sources */,
 				F1808326275B300900F6A9CC /* AppDelegate.swift in Sources */,
+				F180833A275B613D00F6A9CC /* ImagesCollectionViewCell.swift in Sources */,
 				F1808328275B300900F6A9CC /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
