@@ -32,6 +32,8 @@ class DuplicateImageViewController: UIViewController {
         collectionView.register(ImagesCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         
         view.addSubview(collectionView)
+        
+        
 
     }
     
@@ -50,7 +52,7 @@ class DuplicateImageViewController: UIViewController {
 extension DuplicateImageViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print(duplicateImageData.count)
+
         return duplicateImageData.count/2
     }
     

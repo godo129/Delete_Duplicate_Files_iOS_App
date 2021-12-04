@@ -17,6 +17,7 @@
 		F180833C275B8BF100F6A9CC /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F180833B275B8BF100F6A9CC /* HomeViewController.swift */; };
 		F180833F275B986100F6A9CC /* ImageDatas.swift in Sources */ = {isa = PBXBuildFile; fileRef = F180833E275B986100F6A9CC /* ImageDatas.swift */; };
 		F1808343275BA6E500F6A9CC /* DuplicateImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1808342275BA6E500F6A9CC /* DuplicateImageViewController.swift */; };
+		F1808345275BED7D00F6A9CC /* GetPhotoDataFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1808344275BED7D00F6A9CC /* GetPhotoDataFunction.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		F180833B275B8BF100F6A9CC /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		F180833E275B986100F6A9CC /* ImageDatas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDatas.swift; sourceTree = "<group>"; };
 		F1808342275BA6E500F6A9CC /* DuplicateImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuplicateImageViewController.swift; sourceTree = "<group>"; };
+		F1808344275BED7D00F6A9CC /* GetPhotoDataFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPhotoDataFunction.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,7 @@
 				F1808329275B300900F6A9CC /* ViewController.swift */,
 				F180833B275B8BF100F6A9CC /* HomeViewController.swift */,
 				F1808339275B613D00F6A9CC /* ImagesCollectionViewCell.swift */,
+				F1808344275BED7D00F6A9CC /* GetPhotoDataFunction.swift */,
 				F1808342275BA6E500F6A9CC /* DuplicateImageViewController.swift */,
 				F180832B275B300900F6A9CC /* Main.storyboard */,
 				F180832E275B300B00F6A9CC /* Assets.xcassets */,
@@ -172,6 +175,7 @@
 				F180833F275B986100F6A9CC /* ImageDatas.swift in Sources */,
 				F180833A275B613D00F6A9CC /* ImagesCollectionViewCell.swift in Sources */,
 				F1808328275B300900F6A9CC /* SceneDelegate.swift in Sources */,
+				F1808345275BED7D00F6A9CC /* GetPhotoDataFunction.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

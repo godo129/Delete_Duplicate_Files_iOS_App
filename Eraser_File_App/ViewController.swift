@@ -109,10 +109,10 @@ class ViewController: UIViewController {
     }
     
     private func reqeustsPhotoPermission() {
-        
-        
+
+
         let photoAutorizationStatus = PHPhotoLibrary.authorizationStatus()
-        
+
         switch photoAutorizationStatus {
         case .authorized:
             print("allowed")
@@ -121,7 +121,7 @@ class ViewController: UIViewController {
             print("denied")
         case .notDetermined:
             print("Photo Authorization status is not determined")
-            
+
             PHPhotoLibrary.requestAuthorization() {
                 (status) in
                 switch status {
@@ -137,36 +137,36 @@ class ViewController: UIViewController {
             }
         case .restricted :
             print("Photo Authorization status is restricted ")
- 
+
         default:
             break
         }
-        
+
     }
-    
+
     private func requestCollection() {
         let cameraRoll: PHFetchResult<PHAssetCollection> = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumUserLibrary, options: nil)
-        
+
         guard let cameraRollCollection = cameraRoll.firstObject else {
             return
         }
-        
+
         let fetchOption = PHFetchOptions()
         fetchOption.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        
+
         fetchResult = PHAsset.fetchAssets(in: cameraRollCollection, options: fetchOption)
-   
-        
+
+
         for idx in 0..<fetchResult.count {
-            
-            
+
+
             let asset = fetchResult.object(at: idx)
-            
+
             imageManager.requestImage(for: asset, targetSize: CGSize(width: 300, height: 300), contentMode: .aspectFit, options: nil) { image, _ in
-                
+
                 if imageDataList.contains((image?.pngData())!) {
                     self.imageView.image = image
-                    
+
                     if !duplicateImageData.contains((image?.pngData())!) {
                         duplicateImageData.append((image?.pngData())!)
                         duplicateLists[(image?.pngData())!] = [asset]
@@ -175,18 +175,18 @@ class ViewController: UIViewController {
                         dupData?.append(asset)
                         duplicateLists[(image?.pngData())!] = dupData
                     }
-                    
+
                     print(idx)
                 } else {
                     imageDataList.append((image?.pngData())!)
                 }
 
-                
+
             }
-       
+
         }
-        
-  
+
+
         OperationQueue.main.addOperation {
             self.tableView.reloadData()
         }
@@ -227,31 +227,12 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             PHPhotoLibrary.shared().performChanges({PHAssetChangeRequest.deleteAssets([asset] as NSFastEnumeration)}, completionHandler: nil)
             
         }
+        
+        
     }
     
 }
 
-//extension ViewController:UICollectionViewDataSource,UICollectionViewDelegate {
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return self.fetchResult.count
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        let cell2 = collectionView.dequeueReusableCell(withReuseIdentifier: "cell2", for: indexPath) as! ImagesCollectionViewCell
-//
-//        guard let asset: PHAsset = self.fetchResult?.object(at: indexPath.row) else {
-//            return cell2
-//        }
-//
-//        imageManager.requestImage(for: asset, targetSize: CGSize(width: 100, height: 100), contentMode: .aspectFill, options: nil) { image, _ in
-//            cell2.ExerciseImage.image = image
-//        }
-//
-//        return cell2
-//    }
-//
-//
-//}
 
 extension ViewController: PHPhotoLibraryChangeObserver {
 

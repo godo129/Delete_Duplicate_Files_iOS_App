@@ -6,9 +6,18 @@
 //
 
 import UIKit
+import Photos
+
+let WatchDuplicateViewButton: UIButton = {
+    let WatchDuplicateButton = UIButton()
+    WatchDuplicateButton.backgroundColor = .purple
+    return WatchDuplicateButton
+}()
 
 class HomeViewController: UIViewController {
     
+    
+   
     
     private let WatchDuplicateButton: UIButton = {
         let WatchDuplicateButton = UIButton()
@@ -16,22 +25,40 @@ class HomeViewController: UIViewController {
         return WatchDuplicateButton
     }()
     
-    private let WatchDuplicateViewButton: UIButton = {
-        let WatchDuplicateButton = UIButton()
-        WatchDuplicateButton.backgroundColor = .purple
-        return WatchDuplicateButton
-    }()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(WatchDuplicateButton)
         view.addSubview(WatchDuplicateViewButton)
-        
+
         WatchDuplicateButton.addTarget(self, action: #selector(WatchDuplicateButtonTapped), for: .touchUpInside)
         
         WatchDuplicateViewButton.addTarget(self, action: #selector(WatchDuplicateViewButtonTapped), for: .touchUpInside)
+        
+        
+        // 백그라운드에서 다시 앱으로 돌아오는 것을 알아 채게 하기
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(appCameToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+        
+        
 
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        registerPhotoLibrary()
+    
+
+        
+    }
+    
+    @objc func appCameToForeground() {
+        reqeustsPhotoPermission()
+    }
+    
+    
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -53,4 +80,25 @@ class HomeViewController: UIViewController {
         present(vc!, animated: true, completion: nil)
     }
 
+}
+
+
+
+extension HomeViewController: PHPhotoLibraryChangeObserver {
+
+    func registerPhotoLibrary() {
+        PHPhotoLibrary.shared().register(self)
+    }
+
+    func photoLibraryDidChange(_ changeInstance: PHChange) {
+        guard let asset = fetchResult, let changes = changeInstance.changeDetails(for: asset) else {
+            return
+        }
+
+        fetchResult = changes.fetchResultAfterChanges
+
+        OperationQueue.main.addOperation {
+            
+        }
+    }
 }
