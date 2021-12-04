@@ -60,8 +60,7 @@
 		F1808324275B300900F6A9CC /* Eraser_File_App */ = {
 			isa = PBXGroup;
 			children = (
-				F1808325275B300900F6A9CC /* AppDelegate.swift */,
-				F1808327275B300900F6A9CC /* SceneDelegate.swift */,
+				F180833D275B91B300F6A9CC /* Resource */,
 				F1808329275B300900F6A9CC /* ViewController.swift */,
 				F1808339275B613D00F6A9CC /* ImagesCollectionViewCell.swift */,
 				F180832B275B300900F6A9CC /* Main.storyboard */,
@@ -71,6 +70,15 @@
 				F1808333275B300B00F6A9CC /* Info.plist */,
 			);
 			path = Eraser_File_App;
+			sourceTree = "<group>";
+		};
+		F180833D275B91B300F6A9CC /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				F1808325275B300900F6A9CC /* AppDelegate.swift */,
+				F1808327275B300900F6A9CC /* SceneDelegate.swift */,
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
