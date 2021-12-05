@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import MobileCoreServices
 
 struct File {
     var url: URL
@@ -18,28 +19,49 @@ class FileViewController: UIViewController {
     let filemg = FileManager.default
     let path = Bundle.main.resourcePath!
     
+    let imageView = UIImageView()
+    
     var contentLists: [Data] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let file = "\(UUID().uuidString).txt"
-        let contents = "Something happened?"
         
-        let dir = filemg.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let fileURL = dir.appendingPathComponent(file)
+        imageView.frame = CGRect(x: 30, y: 50, width: 300, height: 300)
+        view.addSubview(imageView)
         
-        do {
-            try contents.write(to: fileURL, atomically: false, encoding: .utf8)
-        } catch {
-            print("Error: \(error)")
-        }
+//        let file = "\(UUID().uuidString).txt"
+//        let contents = "Something happened?"
+//
+//        let dir = filemg.urls(for: .documentDirectory, in: .userDomainMask).first!
+//        let fileURL = dir.appendingPathComponent(file)
+//
+//        do {
+//            try contents.write(to: fileURL, atomically: false, encoding: .utf8)
+//        } catch {
+//            print("Error: \(error)")
+//        }
         
-        let documnetURL = filemg.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+        let documnetURL = filemg.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        getData(fileUrl: rootURL)
         
-        getData(fileUrl: documnetURL)
+        
+//        let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.folder])
+//        documentPicker.directoryURL = documnetURL
+//        documentPicker.delegate = self
+//        present(documentPicker, animated: true, completion: nil)
+        
+        importFiles()
         
      
+    }
+    
+    private func importFiles() {
+        
+        let documentPikcer = UIDocumentPickerViewController(forOpeningContentTypes: [.folder])
+        documentPikcer.delegate = self
+        present(documentPikcer, animated: true, completion: nil)
+        
     }
     
     private func getData(fileUrl: URL) {
@@ -61,6 +83,8 @@ class FileViewController: UIViewController {
                     try filemg.removeItem(at: fileData.url)
                     print(fileData.url)
                     print(fileData.data)
+                    
+                    imageView.image = UIImage(data: fileData.data)
                 }
             }
             
@@ -72,4 +96,29 @@ class FileViewController: UIViewController {
     }
 
 
+}
+
+extension FileViewController: UIDocumentPickerDelegate {
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        
+        guard let selectedFileURL = urls.first else {
+            return
+        }
+        
+        let dir = filemg.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let sandboxFileURL = dir.appendingPathComponent(selectedFileURL.lastPathComponent)
+        
+        if filemg.fileExists(atPath: sandboxFileURL.path) {
+            print("already Exists! nothing")
+        }
+        else {
+            do {
+                try filemg.copyItem(at: selectedFileURL, to: sandboxFileURL)
+                
+                print("Copied file!")
+            } catch {
+                print("error")
+            }
+        }
+    }
 }
