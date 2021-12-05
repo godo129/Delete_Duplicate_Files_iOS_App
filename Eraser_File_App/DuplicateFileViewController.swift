@@ -31,8 +31,8 @@ class DuplicateFileViewController: UIViewController {
         collectionView.register(ImagesCollectionViewCell.self, forCellWithReuseIdentifier: "fileCell")
         
         view.addSubview(collectionView)
-        
-        getData(fileUrl: rootURL)
+//
+//        getData(fileUrl: rootURL)
     }
     
     
@@ -56,9 +56,13 @@ class DuplicateFileViewController: UIViewController {
                     } else {
                         
                         var urlLists: [URL] = duplicateFileLists[fileData.data]!
+                        
+                        if urlLists.count == 0 {
+                            duplicateFileData.append(fileData.data)
+                        }
                         urlLists.append(fileData.url)
                         duplicateFileLists[fileData.data] = urlLists
-                        duplicateFileData.append(fileData.data)
+                        
 //                        try filemg.removeItem(at: fileData.url)
 //                        print(fileData.url)
 //                        print(fileData.data)
@@ -71,9 +75,9 @@ class DuplicateFileViewController: UIViewController {
                     getData(fileUrl: content)
                 }
             }
-
-            print(fileURLLists)
-            print(duplicateFileLists)
+//
+//            print(fileURLLists)
+//            print(duplicateFileLists)
             
         } catch {
             print("error ocurred ")
@@ -114,7 +118,7 @@ extension DuplicateFileViewController: UICollectionViewDataSource, UICollectionV
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "fileCell", for: indexPath) as! ImagesCollectionViewCell
         
-        cell.ExerciseImage.image = UIImage(data: duplicateFileData[indexPath.row])!
+        cell.ExerciseImage.image = UIImage(data: duplicateFileData[indexPath.row])
         cell.ExerciseLabel.text = "\(duplicateFileLists[duplicateFileData[indexPath.row]]!.count)"
         
         return cell
@@ -122,7 +126,25 @@ extension DuplicateFileViewController: UICollectionViewDataSource, UICollectionV
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-    
+        let toDeleteURLs = duplicateFileLists[duplicateFileData[indexPath.row]]!
+        
+        for toDeleteURL in toDeleteURLs {
+            do{
+                try filemg.removeItem(at: toDeleteURL)
+                
+            } catch {
+                print("delete errored")
+            }
+        }
+        
+        duplicateFileLists.removeValue(forKey: duplicateFileData[indexPath.row])
+        duplicateFileData.remove(at: indexPath.row)
+        let empty: [URL] = []
+        duplicateFileLists[duplicateFileData[indexPath.row]] = empty
+        
+        collectionView.deleteItems(at: [indexPath])
+        
+        collectionView.reloadData()
 
     }
     
