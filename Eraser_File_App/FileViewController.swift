@@ -43,56 +43,81 @@ class FileViewController: UIViewController {
 //        }
         
         let documnetURL = filemg.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        print(documnetURL)
         getData(fileUrl: rootURL)
-        
         
 //        let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: [.folder])
 //        documentPicker.directoryURL = documnetURL
 //        documentPicker.delegate = self
 //        present(documentPicker, animated: true, completion: nil)
+       
         
-        importFiles()
-        
-     
     }
     
-    private func importFiles() {
-        
-        let documentPikcer = UIDocumentPickerViewController(forOpeningContentTypes: [.folder])
-        documentPikcer.delegate = self
-        present(documentPikcer, animated: true, completion: nil)
-        
-    }
     
     private func getData(fileUrl: URL) {
         
-        print(fileUrl)
+        
         do {
             
             let contensts = try filemg.contentsOfDirectory(at: fileUrl, includingPropertiesForKeys: nil)
  
             for content in contensts {
-                guard let item = filemg.contents(atPath: content.path) else {return}
-                
-                let fileData = File(url: content, data: item)
-                
-                if !contentLists.contains(fileData.data) {
-                    contentLists.append(fileData.data)
+                if let item = filemg.contents(atPath: content.path) {
+                    let fileData = File(url: content, data: item)
+                    
+                    if !fileURLLists.contains(fileData.data) {
+//                        contentLists.append(fileData.data)
+                        
+                        fileURLLists.append(fileData.data)
+                        let empty: [URL] = []
+                        duplicateFileLists[fileData.data] = empty
+                    } else {
+                        
+//                        var urlLists: [URL] = duplicateFileLists[fileData.data]!
+//                        urlLists.append(fileData.url)
+//                        duplicateFileLists[fileData.data] = urlLists
+//                        duplicateFileData.append(fileData.data)
+                        try filemg.removeItem(at: fileData.url)
+                        print(fileData.url)
+                        print(fileData.data)
+                        
+                        imageView.image = UIImage(data: fileData.data)
+                    }
+                    
                 } else {
-                    
-                    try filemg.removeItem(at: fileData.url)
-                    print(fileData.url)
-                    print(fileData.data)
-                    
-                    imageView.image = UIImage(data: fileData.data)
+                    // 자동으로 하위 디렉토리 정리해줌
+                    getData(fileUrl: content)
                 }
             }
-            
-            print(contentLists)
+
+            print(fileURLLists)
+            print(duplicateFileLists)
             
         } catch {
             print("error ocurred ")
         }
+        
+        
+        // 매체 없는 파일 삭제
+        do {
+            
+            let contents = try filemg.contentsOfDirectory(at: fileUrl, includingPropertiesForKeys: nil)
+            
+            if contents.isEmpty {
+                try filemg.removeItem(at: fileUrl)
+            }
+            
+        } catch {
+            do {
+                try filemg.removeItem(at: fileUrl)
+            } catch{
+                print("nonono")
+            }
+            
+        }
+        
+        
     }
 
 

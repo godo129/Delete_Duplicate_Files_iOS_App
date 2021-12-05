@@ -16,13 +16,19 @@ let WatchDuplicateViewButton: UIButton = {
 
 class HomeViewController: UIViewController {
     
-    
+    let filemg = FileManager.default
    
     
     private let WatchDuplicateButton: UIButton = {
         let WatchDuplicateButton = UIButton()
         WatchDuplicateButton.backgroundColor = .purple
         return WatchDuplicateButton
+    }()
+    
+    private let getRootURL: UIButton = {
+        let getRootURL = UIButton()
+        getRootURL.backgroundColor = .gray
+        return getRootURL
     }()
     
     private let FileViewButton: UIButton = {
@@ -39,12 +45,14 @@ class HomeViewController: UIViewController {
         view.addSubview(WatchDuplicateViewButton)
         
         view.addSubview(FileViewButton)
+        view.addSubview(getRootURL)
 
         WatchDuplicateButton.addTarget(self, action: #selector(WatchDuplicateButtonTapped), for: .touchUpInside)
         
         WatchDuplicateViewButton.addTarget(self, action: #selector(WatchDuplicateViewButtonTapped), for: .touchUpInside)
         
         FileViewButton.addTarget(self, action: #selector(FileViewButtonTapped), for: .touchUpInside)
+        getRootURL.addTarget(self, action: #selector(getRootURLTapped), for: .touchUpInside)
         
         
         // 백그라운드에서 다시 앱으로 돌아오는 것을 알아 채게 하기
@@ -77,7 +85,9 @@ class HomeViewController: UIViewController {
         
         WatchDuplicateViewButton.frame = CGRect(x: 30, y: 600, width: view.frame.width-60, height: 300)
         
-        FileViewButton.frame = CGRect(x: 30, y: 350, width: view.frame.width-60, height: 200)
+        FileViewButton.frame = CGRect(x: 30, y: 350, width: view.frame.width-260, height: 200)
+        getRootURL.frame = CGRect(x: FileViewButton.frame.origin.x
+                                    + FileViewButton.frame.width, y: FileViewButton.frame.origin.y, width: 300, height: 200)
     }
     
     @objc private func WatchDuplicateViewButtonTapped() {
@@ -88,8 +98,16 @@ class HomeViewController: UIViewController {
         moveView(viewName: "DuplicateView")
     }
     
+    @objc private func getRootURLTapped() {
+        let documentPikcer = UIDocumentPickerViewController(forOpeningContentTypes: [.data])
+        documentPikcer.delegate = self
+        documentPikcer.allowsMultipleSelection = true
+        present(documentPikcer, animated: true, completion: nil)
+        
+    }
+    
     @objc private func FileViewButtonTapped() {
-        moveView(viewName: "FileView")
+        moveView(viewName: "DuplicateFileView")
     }
     
     
@@ -121,4 +139,36 @@ extension HomeViewController: PHPhotoLibraryChangeObserver {
             
         }
     }
+}
+
+
+extension HomeViewController: UIDocumentPickerDelegate {
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        
+        rootURL = urls.first?.deletingLastPathComponent()
+        
+        print(rootURL.path)
+        
+        guard let selectedFileURL = urls.first else {
+            return
+        }
+        
+        
+        let dir = filemg.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let sandboxFileURL = dir.appendingPathComponent(selectedFileURL.lastPathComponent)
+        
+        if filemg.fileExists(atPath: sandboxFileURL.path) {
+            print("already Exists! nothing")
+        }
+        else {
+            do {
+                try filemg.copyItem(at: selectedFileURL, to: sandboxFileURL)
+                
+                print("Copied file!")
+            } catch {
+                print("error")
+            }
+        }
+    }
+
 }

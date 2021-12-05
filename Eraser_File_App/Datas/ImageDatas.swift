@@ -16,3 +16,12 @@ var duplicateImageData: [Data] = []
 var duplicateLists: [Data:[PHAsset]] = [:]
 
 var fetchResult: PHFetchResult<PHAsset>!
+
+var fileURLLists : [Data] = []
+
+var duplicateFileData: [Data] = []
+
+var duplicateFileLists: [Data:[URL]] = [:]
+
+
+var rootURL: URL!
