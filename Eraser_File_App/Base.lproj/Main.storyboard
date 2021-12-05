@@ -36,7 +36,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KTp-YE-GZq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="50" y="-947"/>
+            <point key="canvasLocation" x="-454" y="-1223"/>
         </scene>
         <!--Home View Controller-->
         <scene sceneID="vaW-Du-CVT">
@@ -52,6 +52,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rRS-Zi-ad1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-294" y="-589"/>
+        </scene>
+        <!--File View Controller-->
+        <scene sceneID="Ijb-rD-JGF">
+            <objects>
+                <viewController storyboardIdentifier="FileView" id="9Wo-my-Dkf" customClass="FileViewController" customModule="Eraser_File_App" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="zc0-2D-iuG">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="Yqk-wk-emm"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="693-7C-Nck" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-635" y="56"/>
         </scene>
     </scenes>
     <resources>

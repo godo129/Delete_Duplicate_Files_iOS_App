@@ -47,6 +47,8 @@ class ViewController: UIViewController {
         duplicateImageData = []
         imageDataList = []
         
+        reqeustsPhotoPermission()
+        
         deleteButton.frame = CGRect(x: 400, y: 50, width: 50, height: 50)
         deleteButton.backgroundColor = .systemRed
         
@@ -70,7 +72,7 @@ class ViewController: UIViewController {
  
         //view.addSubview(cells)
         
-        reqeustsPhotoPermission()
+        
         registerPhotoLibrary()
         
         print(duplicateImageData)
@@ -186,10 +188,10 @@ class ViewController: UIViewController {
 
         }
 
-
-        OperationQueue.main.addOperation {
-            self.tableView.reloadData()
-        }
+//
+//        OperationQueue.main.addOperation {
+//            self.tableView.reloadData()
+//        }
     }
 
 
@@ -225,7 +227,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         if editingStyle == .delete {
             let asset = fetchResult?[indexPath.row]
             PHPhotoLibrary.shared().performChanges({PHAssetChangeRequest.deleteAssets([asset] as NSFastEnumeration)}, completionHandler: nil)
-            
+
+            OperationQueue.main.addOperation {
+                self.tableView.reloadData()
+            }
         }
         
         

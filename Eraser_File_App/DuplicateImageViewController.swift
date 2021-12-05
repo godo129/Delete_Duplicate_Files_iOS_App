@@ -81,7 +81,6 @@ extension DuplicateImageViewController: UICollectionViewDataSource, UICollection
             }
         }
 
-
     }
     
     

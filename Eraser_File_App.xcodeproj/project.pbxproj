@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F160808E275C5BC800D8356E /* FileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F160808D275C5BC800D8356E /* FileViewController.swift */; };
 		F1808326275B300900F6A9CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1808325275B300900F6A9CC /* AppDelegate.swift */; };
 		F1808328275B300900F6A9CC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1808327275B300900F6A9CC /* SceneDelegate.swift */; };
 		F180832A275B300900F6A9CC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1808329275B300900F6A9CC /* ViewController.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F160808D275C5BC800D8356E /* FileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileViewController.swift; sourceTree = "<group>"; };
 		F1808322275B300900F6A9CC /* Eraser_File_App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eraser_File_App.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1808325275B300900F6A9CC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F1808327275B300900F6A9CC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 				F180833B275B8BF100F6A9CC /* HomeViewController.swift */,
 				F1808339275B613D00F6A9CC /* ImagesCollectionViewCell.swift */,
 				F1808344275BED7D00F6A9CC /* GetPhotoDataFunction.swift */,
+				F160808D275C5BC800D8356E /* FileViewController.swift */,
 				F1808342275BA6E500F6A9CC /* DuplicateImageViewController.swift */,
 				F180832B275B300900F6A9CC /* Main.storyboard */,
 				F180832E275B300B00F6A9CC /* Assets.xcassets */,
@@ -168,6 +171,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F160808E275C5BC800D8356E /* FileViewController.swift in Sources */,
 				F180833C275B8BF100F6A9CC /* HomeViewController.swift in Sources */,
 				F180832A275B300900F6A9CC /* ViewController.swift in Sources */,
 				F1808326275B300900F6A9CC /* AppDelegate.swift in Sources */,
