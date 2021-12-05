@@ -138,9 +138,13 @@ extension DuplicateFileViewController: UICollectionViewDataSource, UICollectionV
         }
         
         duplicateFileLists.removeValue(forKey: duplicateFileData[indexPath.row])
-        duplicateFileData.remove(at: indexPath.row)
-        let empty: [URL] = []
+        
+        var empty: [URL] = []
+        
         duplicateFileLists[duplicateFileData[indexPath.row]] = empty
+        
+        duplicateFileData.remove(at: indexPath.row)
+        
         
         collectionView.deleteItems(at: [indexPath])
         
