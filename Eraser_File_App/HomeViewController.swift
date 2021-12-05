@@ -117,6 +117,75 @@ class HomeViewController: UIViewController {
         present(vc!, animated: true, completion: nil)
         
     }
+    
+    private func getData(fileUrl: URL) {
+        
+        
+        do {
+            
+            let contensts = try filemg.contentsOfDirectory(at: fileUrl, includingPropertiesForKeys: nil)
+ 
+            for content in contensts {
+                if let item = filemg.contents(atPath: content.path) {
+                    let fileData = File(url: content, data: item)
+                    
+                    if !fileURLLists.contains(fileData.data) {
+//                        contentLists.append(fileData.data)
+                        
+                        fileURLLists.append(fileData.data)
+                        let empty: [URL] = []
+                        duplicateFileLists[fileData.data] = empty
+                    } else {
+                        
+                        var urlLists: [URL] = duplicateFileLists[fileData.data]!
+                        
+                        if urlLists.count == 0 {
+                            duplicateFileData.append(fileData.data)
+                        }
+                        urlLists.append(fileData.url)
+                        duplicateFileLists[fileData.data] = urlLists
+                        
+//                        try filemg.removeItem(at: fileData.url)
+//                        print(fileData.url)
+//                        print(fileData.data)
+//
+//                        imageView.image = UIImage(data: fileData.data)
+                    }
+                    
+                } else {
+                    // 자동으로 하위 디렉토리 정리해줌
+                    getData(fileUrl: content)
+                }
+            }
+//
+//            print(fileURLLists)
+//            print(duplicateFileLists)
+            
+        } catch {
+            print("error ocurred ")
+        }
+        
+        
+        // 매체 없는 파일 삭제
+        do {
+            
+            let contents = try filemg.contentsOfDirectory(at: fileUrl, includingPropertiesForKeys: nil)
+            
+            if contents.isEmpty {
+                try filemg.removeItem(at: fileUrl)
+            }
+            
+        } catch {
+            do {
+                try filemg.removeItem(at: fileUrl)
+            } catch{
+                print("nonono")
+            }
+            
+        }
+        
+        
+    }
 
 }
 
@@ -149,26 +218,36 @@ extension HomeViewController: UIDocumentPickerDelegate {
         
         print(rootURL.path)
         
-        guard let selectedFileURL = urls.first else {
-            return
-        }
+//        guard let selectedFileURL = urls.first else {
+//            return
+//        }
         
         
-        let dir = filemg.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let sandboxFileURL = dir.appendingPathComponent(selectedFileURL.lastPathComponent)
+//        let dir = filemg.urls(for: .documentDirectory, in: .userDomainMask).first!
+//        let sandboxFileURL = dir.appendingPathComponent(selectedFileURL.lastPathComponent)
+//
+//        if filemg.fileExists(atPath: sandboxFileURL.path) {
+//            print("already Exists! nothing")
+//        }
+//        else {
+//            do {
+//                try filemg.copyItem(at: selectedFileURL, to: sandboxFileURL)
+//
+//                print("Copied file!")
+//            } catch {
+//                print("error")
+//            }
+//        }
         
-        if filemg.fileExists(atPath: sandboxFileURL.path) {
-            print("already Exists! nothing")
-        }
-        else {
-            do {
-                try filemg.copyItem(at: selectedFileURL, to: sandboxFileURL)
-                
-                print("Copied file!")
-            } catch {
-                print("error")
-            }
-        }
+        var empty : [Data] = []
+        var ListsEmpty: [Data:[URL]] = [:]
+        
+        fileURLLists = empty
+        duplicateFileData = empty
+        duplicateFileLists = ListsEmpty
+            
+
+        getData(fileUrl: rootURL)
     }
 
 }
