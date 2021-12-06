@@ -115,7 +115,7 @@ class HomeViewController: UIViewController {
 //        WatchDuplicateViewButton.frame = CGRect(x: 30, y: 600, width: view.frame.width-60, height: 300)
         
 //        FileViewButton.frame = CGRect(x: 30, y: 350, width: view.frame.width-260, height: 200)
-        chooseFileURL.frame = CGRect(x: 30, y: 350, width: view.frame.width-60, height: 200)
+        chooseFileURL.frame = CGRect(x: 30, y: imageController.frame.origin.y+400, width: view.frame.width-60, height: 200)
 //        getRootURL.frame = CGRect(x: FileViewButton.frame.origin.x
 //                                    + FileViewButton.frame.width, y: FileViewButton.frame.origin.y, width: 300, height: 200)
         getRootURL.frame = chooseFileURL.frame
