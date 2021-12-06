@@ -66,6 +66,9 @@ class HomeViewController: UIViewController {
 //        view.addSubview(WatchDuplicateViewButton)
         
 //        view.addSubview(FileViewButton)
+        
+        // 백그라운드 갔다 와도 돌아가게
+        chooseFileURL.backgroundBehavior = .pauseAndRestore
         view.addSubview(chooseFileURL)
         view.addSubview(getRootURL)
         
@@ -95,8 +98,8 @@ class HomeViewController: UIViewController {
 //
 //    override func viewWillAppear(_ animated: Bool) {
 //        super.viewWillAppear(animated)
-
-//
+//        
+//        
 //
 //    }
     
@@ -249,6 +252,7 @@ extension HomeViewController: UIDocumentPickerDelegate {
         
         rootURL = urls.first?.deletingLastPathComponent()
         
+        print(rootURL)
         
 //        guard let selectedFileURL = urls.first else {
 //            return
