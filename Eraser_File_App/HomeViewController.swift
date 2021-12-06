@@ -46,6 +46,12 @@ class HomeViewController: UIViewController {
         chooseFileURL = .init(name: "findDocuments")
         chooseFileURL.play()
         chooseFileURL.loopMode = .loop
+        chooseFileURL.layer.borderWidth = 2
+        chooseFileURL.layer.borderColor = UIColor.black.cgColor
+        chooseFileURL.layer.shadowColor = UIColor.gray.cgColor
+        chooseFileURL.layer.shadowRadius = 5
+//        chooseFileURL.layer.shadowOpacity = 1
+//        chooseFileURL.layer.shadowOffset = CGSize(width: 3, height: 3)
         return chooseFileURL
     }()
     
@@ -98,8 +104,8 @@ class HomeViewController: UIViewController {
 //
 //    override func viewWillAppear(_ animated: Bool) {
 //        super.viewWillAppear(animated)
-//        
-//        
+//
+//
 //
 //    }
     
@@ -119,7 +125,7 @@ class HomeViewController: UIViewController {
 //        WatchDuplicateViewButton.frame = CGRect(x: 30, y: 600, width: view.frame.width-60, height: 300)
         
 //        FileViewButton.frame = CGRect(x: 30, y: 350, width: view.frame.width-260, height: 200)
-        chooseFileURL.frame = CGRect(x: 30, y: imageController.frame.origin.y+400, width: view.frame.width-60, height: 200)
+        chooseFileURL.frame = CGRect(x: 30, y: imageController.frame.origin.y+400, width: view.frame.width-60, height: 250)
 //        getRootURL.frame = CGRect(x: FileViewButton.frame.origin.x
 //                                    + FileViewButton.frame.width, y: FileViewButton.frame.origin.y, width: 300, height: 200)
         getRootURL.frame = chooseFileURL.frame
@@ -135,8 +141,11 @@ class HomeViewController: UIViewController {
     }
     
     @objc private func getRootURLTapped() {
+        
+        
         let documentPikcer = UIDocumentPickerViewController(forOpeningContentTypes: [.folder])
         documentPikcer.delegate = self
+        documentPikcer.shouldShowFileExtensions = true
 //        documentPikcer.allowsMultipleSelection = true
         present(documentPikcer, animated: true, completion: nil)
         
@@ -302,10 +311,15 @@ extension HomeViewController: FSPagerViewDelegate,FSPagerViewDataSource {
     func pagerView(_ pagerView: FSPagerView, cellForItemAt index: Int) -> FSPagerViewCell {
         let cell = pagerView.dequeueReusableCell(withReuseIdentifier: "photoCell", at: index)
         
+        
+        
         switch index {
         case 0:
             cell.imageView?.image = representImage
             cell.textLabel?.text = "\(duplicateImageCount/2)"
+            cell.textLabel?.textAlignment = .center
+            cell.textLabel?.backgroundColor = .clear
+            cell.textLabel?.textColor = .black
         default:
             cell.imageView?.image = representImage
             cell.textLabel?.text = "사진 정보 보기"
