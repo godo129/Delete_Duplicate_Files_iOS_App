@@ -122,6 +122,9 @@ extension DuplicateImageViewController: UICollectionViewDataSource, UICollection
                 duplicateLists.removeValue(forKey: duplicateImageData[indexPath.row])
                 duplicateImageData.remove(at: indexPath.row)
                 collectionView.deleteItems(at: [indexPath])
+                
+                representImage = UIImage(named: "defaultImage")!
+                reqeustsPhotoPermission()
             } else {
                 return
             }
