@@ -22,7 +22,7 @@ class ImagesCollectionViewCell: UICollectionViewCell {
 //            ExerciseLabel.backgroundColor = .clear
             ExerciseLabel.textAlignment = .center
             ExerciseLabel.textColor = .black
-            ExerciseLabel.font = .systemFont(ofSize: 20, weight: .bold)
+            ExerciseLabel.font = .systemFont(ofSize: 15, weight: .bold)
             ExerciseLabel.clipsToBounds = true
             ExerciseLabel.layer.masksToBounds = true
             ExerciseLabel.layer.borderWidth = 4
@@ -78,9 +78,14 @@ class ImagesCollectionViewCell: UICollectionViewCell {
             
             ExerciseImage.frame = CGRect(x: 0, y: 0, width: contentView.frame.size.width, height: contentView.frame.size.height)
             
-            ExerciseLabel.frame = CGRect(x: contentView.frame.size.width/2+contentView.frame.size.width/4,
+//            ExerciseLabel.frame = CGRect(x: contentView.frame.size.width/2+contentView.frame.size.width/4,
+//                                         y: contentView.frame.size.height-30,
+//                                         width: contentView.frame.size.width/4,
+//                                         height: 30)
+//            
+            ExerciseLabel.frame = CGRect(x: 0,
                                          y: contentView.frame.size.height-30,
-                                         width: contentView.frame.size.width/4,
+                                         width: contentView.frame.size.width,
                                          height: 30)
         }
 }
