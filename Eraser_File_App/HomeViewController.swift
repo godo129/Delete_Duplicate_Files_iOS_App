@@ -24,6 +24,7 @@ class HomeViewController: UIViewController {
         var imageConroller = FSPagerView()
         imageConroller.transformer = FSPagerViewTransformer(type: .zoomOut)
         imageConroller.isInfinite = true
+        imageConroller.contentMode = .scaleAspectFill
         return imageConroller
     }()
    
@@ -300,7 +301,7 @@ extension HomeViewController: FSPagerViewDelegate,FSPagerViewDataSource {
         switch index {
         case 0:
             cell.imageView?.image = representImage
-            cell.textLabel?.text = "\(duplicateImageCount)"
+            cell.textLabel?.text = "\(duplicateImageCount/2)"
         default:
             cell.imageView?.image = representImage
             cell.textLabel?.text = "사진 정보 보기"

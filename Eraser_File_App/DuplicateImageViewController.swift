@@ -114,9 +114,11 @@ extension DuplicateImageViewController: UICollectionViewDataSource, UICollection
         
         let assets = duplicateLists[duplicateImageData[indexPath.row]]
         
+        let toDelNum = assets?.count
         
         PHPhotoLibrary.shared().performChanges({PHAssetChangeRequest.deleteAssets(assets! as NSFastEnumeration)}) { success, error in
             if success {
+                duplicateImageCount -= 2*toDelNum!
                 duplicateLists.removeValue(forKey: duplicateImageData[indexPath.row])
                 duplicateImageData.remove(at: indexPath.row)
                 collectionView.deleteItems(at: [indexPath])

@@ -76,6 +76,8 @@ func requestCollection() {
     duplicateLists = emptyList
     duplicateImageData = empty
     imageDataList = empty2
+    
+    duplicateImageCount = 0
  
     
     for idx in 0..<fetchResult.count {
@@ -91,12 +93,15 @@ func requestCollection() {
    
             if imageDataList.contains(imgData) {
                 WatchDuplicateViewButton.setImage(image, for: .normal)
+                representImage = UIImage(data: imgData)!
+                duplicateImageCount += 1
                     
                 if !duplicateImageData.contains(imgData) {
                     duplicateImageData.append(imgData)
                     duplicateLists[imgData] = [asset]
-                    print(imgData)
+                    
                 } else {
+                    
                     var dupData = duplicateLists[imgData]
                     dupData?.append(asset)
                     duplicateLists[imgData] = dupData
