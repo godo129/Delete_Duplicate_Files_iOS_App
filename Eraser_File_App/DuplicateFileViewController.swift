@@ -30,7 +30,7 @@ class DuplicateFileViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         // 셀 크기 정하기
-        layout.itemSize = CGSize(width: view.frame.size.width/2-2, height: view.frame.size.width/3-4)
+        layout.itemSize = CGSize(width: view.frame.size.width/2-2, height: view.frame.size.width/2-2+100)
         // 셀마다 공간 정하기
         layout.minimumLineSpacing = 1
         layout.minimumInteritemSpacing = 1
@@ -160,7 +160,8 @@ extension DuplicateFileViewController: UICollectionViewDataSource, UICollectionV
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "fileCell", for: indexPath) as! ImagesCollectionViewCell
         
         cell.ExerciseImage.image = UIImage(data: duplicateFileData[indexPath.row])
-        cell.ExerciseLabel.text = "\(duplicateFileLists[duplicateFileData[indexPath.row]]!.count)"
+        let fileName = duplicateFileLists[duplicateFileData[indexPath.row]]![0].lastPathComponent.description
+        cell.ExerciseLabel.text = "\(fileName) \(duplicateFileLists[duplicateFileData[indexPath.row]]!.count)"
         
         return cell
     }
