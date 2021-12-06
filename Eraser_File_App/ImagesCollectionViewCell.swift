@@ -19,14 +19,19 @@ class ImagesCollectionViewCell: UICollectionViewCell {
         var ExerciseLabel: UILabel = {
             let ExerciseLabel = UILabel()
             ExerciseLabel.backgroundColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1)
+//            ExerciseLabel.backgroundColor = .clear
             ExerciseLabel.textAlignment = .center
             ExerciseLabel.textColor = .black
             ExerciseLabel.font = .systemFont(ofSize: 20, weight: .bold)
+            ExerciseLabel.clipsToBounds = true
+            ExerciseLabel.layer.masksToBounds = true
+            ExerciseLabel.layer.borderWidth = 4
+            ExerciseLabel.layer.borderColor = UIColor.black.cgColor
+            ExerciseLabel.layer.cornerRadius = ExerciseLabel.bounds.size.width/2
             return ExerciseLabel
             
         }()
         
-        static let identifier = "ExerciseCollectionViewCell"
         
         override init(frame: CGRect) {
             super.init(frame: frame)
@@ -71,11 +76,11 @@ class ImagesCollectionViewCell: UICollectionViewCell {
         override func layoutSubviews() {
             super.layoutSubviews()
             
-            ExerciseImage.frame = CGRect(x: 0, y: 0, width: contentView.frame.size.width, height: contentView.frame.size.height-30)
+            ExerciseImage.frame = CGRect(x: 0, y: 0, width: contentView.frame.size.width, height: contentView.frame.size.height)
             
-            ExerciseLabel.frame = CGRect(x: 0,
+            ExerciseLabel.frame = CGRect(x: contentView.frame.size.width/2+contentView.frame.size.width/4,
                                          y: contentView.frame.size.height-30,
-                                         width: contentView.frame.size.width,
+                                         width: contentView.frame.size.width/4,
                                          height: 30)
         }
 }
