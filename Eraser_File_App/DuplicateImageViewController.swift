@@ -31,7 +31,7 @@ class DuplicateImageViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         // 셀 크기 정하기
-        layout.itemSize = CGSize(width: view.frame.size.width/2-2, height: view.frame.size.width/3-4)
+        layout.itemSize = CGSize(width: view.frame.size.width/2-2, height: view.frame.size.width/2-2+100)
         // 셀마다 공간 정하기
         layout.minimumLineSpacing = 1
         layout.minimumInteritemSpacing = 1
