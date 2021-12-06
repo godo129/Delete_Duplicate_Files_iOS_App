@@ -12,6 +12,7 @@
 		F1608090275D247300D8356E /* DuplicateFileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F160808F275D247300D8356E /* DuplicateFileViewController.swift */; };
 		F1608097275E2F8300D8356E /* emptyBox.json in Resources */ = {isa = PBXBuildFile; fileRef = F1608096275E2F8300D8356E /* emptyBox.json */; };
 		F1608099275E2F9200D8356E /* findDocuments.json in Resources */ = {isa = PBXBuildFile; fileRef = F1608098275E2F9200D8356E /* findDocuments.json */; };
+		F160809C275E947700D8356E /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = F160809B275E947700D8356E /* Button.swift */; };
 		F1808326275B300900F6A9CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1808325275B300900F6A9CC /* AppDelegate.swift */; };
 		F1808328275B300900F6A9CC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1808327275B300900F6A9CC /* SceneDelegate.swift */; };
 		F180832A275B300900F6A9CC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1808329275B300900F6A9CC /* ViewController.swift */; };
@@ -33,6 +34,7 @@
 		F160808F275D247300D8356E /* DuplicateFileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuplicateFileViewController.swift; sourceTree = "<group>"; };
 		F1608096275E2F8300D8356E /* emptyBox.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = emptyBox.json; path = ../../../animation/emptyBox.json; sourceTree = "<group>"; };
 		F1608098275E2F9200D8356E /* findDocuments.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = findDocuments.json; path = ../../../animation/findDocuments.json; sourceTree = "<group>"; };
+		F160809B275E947700D8356E /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		F1808322275B300900F6A9CC /* Eraser_File_App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eraser_File_App.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1808325275B300900F6A9CC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F1808327275B300900F6A9CC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -86,6 +88,14 @@
 			path = animation;
 			sourceTree = "<group>";
 		};
+		F160809A275E898400D8356E /* Function */ = {
+			isa = PBXGroup;
+			children = (
+				F1808344275BED7D00F6A9CC /* GetPhotoDataFunction.swift */,
+			);
+			path = Function;
+			sourceTree = "<group>";
+		};
 		F1808319275B300900F6A9CC = {
 			isa = PBXGroup;
 			children = (
@@ -107,13 +117,14 @@
 		F1808324275B300900F6A9CC /* Eraser_File_App */ = {
 			isa = PBXGroup;
 			children = (
+				F160809A275E898400D8356E /* Function */,
 				F1608093275DD79500D8356E /* animation */,
 				F1808341275B988000F6A9CC /* Datas */,
 				F180833D275B91B300F6A9CC /* Resource */,
 				F1808329275B300900F6A9CC /* ViewController.swift */,
+				F160809B275E947700D8356E /* Button.swift */,
 				F180833B275B8BF100F6A9CC /* HomeViewController.swift */,
 				F1808339275B613D00F6A9CC /* ImagesCollectionViewCell.swift */,
-				F1808344275BED7D00F6A9CC /* GetPhotoDataFunction.swift */,
 				F160808D275C5BC800D8356E /* FileViewController.swift */,
 				F1808342275BA6E500F6A9CC /* DuplicateImageViewController.swift */,
 				F160808F275D247300D8356E /* DuplicateFileViewController.swift */,
@@ -268,6 +279,7 @@
 				F180833A275B613D00F6A9CC /* ImagesCollectionViewCell.swift in Sources */,
 				F1808328275B300900F6A9CC /* SceneDelegate.swift in Sources */,
 				F1808345275BED7D00F6A9CC /* GetPhotoDataFunction.swift in Sources */,
+				F160809C275E947700D8356E /* Button.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

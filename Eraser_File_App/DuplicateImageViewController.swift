@@ -23,6 +23,18 @@ class DuplicateImageViewController: UIViewController {
         return emptyAnimation
     }()
     
+    private let deleteAllButton: UIButton = {
+        let deleteAllButton = UIButton()
+        deleteAllButton.setTitle("전부 삭제", for: .normal)
+        deleteAllButton.setTitleColor(.black, for: .normal)
+        deleteAllButton.backgroundColor = .white
+        deleteAllButton.layer.borderWidth = 2
+        deleteAllButton.layer.borderColor = UIColor.black.cgColor
+        deleteAllButton.layer.cornerRadius = 10
+        deleteAllButton.layer.opacity = 0.7
+        return deleteAllButton
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -50,6 +62,9 @@ class DuplicateImageViewController: UIViewController {
         
         view.addSubview(collectionView)
         
+        view.addSubview(deleteAllButton)
+        deleteAllButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
+        
         if duplicateImageData.isEmpty {
             emptyAnimaton.isHidden = false
         } else {
@@ -69,6 +84,7 @@ class DuplicateImageViewController: UIViewController {
         super.viewDidLayoutSubviews()
         
         emptyAnimaton.frame = view.bounds
+        deleteAllButton.frame = CGRect(x: view.frame.width-100, y: 0, width: 100, height: 40)
         
         
     }
@@ -78,6 +94,11 @@ class DuplicateImageViewController: UIViewController {
         view.addSubview(emptyAnimaton)
         emptyAnimaton.backgroundBehavior = .pauseAndRestore
         
+        imageDataReList()
+     
+    }
+    
+    private func imageDataReList() {
         var newDuplicateImageData: [Data] = []
         
         for idx in 0..<duplicateImageData.count/2 {
@@ -88,7 +109,40 @@ class DuplicateImageViewController: UIViewController {
         }
         
         duplicateImageData = newDuplicateImageData
-     
+    }
+    
+    @objc private func deleteButtonTapped() {
+        for idx in 0..<duplicateImageData.count {
+            
+            let datum = duplicateImageData[idx]
+           
+            guard let assets = duplicateLists[datum] else {return}
+            
+            let toDelNum = assets.count
+            
+            PHPhotoLibrary.shared().performChanges({PHAssetChangeRequest.deleteAssets(assets as NSFastEnumeration)}) { success, error in
+                if success {
+                    
+                    duplicateImageCount -= toDelNum*2
+                    representImage = UIImage(named: "defaultImage")!
+                    duplicateImageData.remove(at: idx)
+                    duplicateLists.removeValue(forKey: datum)
+                    let indexPath = IndexPath(row: idx, section: 0)
+                    self.collectionView.deleteItems(at: [indexPath])
+                    self.collectionView.reloadData()
+
+                } else {
+                    return
+                }
+            }
+      
+           
+        }
+//        duplicateLists.removeAll()
+//        duplicateImageData.removeAll()
+//
+//        collectionView.reloadData()
+        
     }
     
     
@@ -153,7 +207,6 @@ extension DuplicateImageViewController: PHPhotoLibraryChangeObserver {
 
         fetchResult = changes.fetchResultAfterChanges
 
-        
         OperationQueue.main.addOperation {
             self.collectionView.reloadSections(IndexSet(0...0))
         }
