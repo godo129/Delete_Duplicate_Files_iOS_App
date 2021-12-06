@@ -56,6 +56,7 @@ class DuplicateImageViewController: UIViewController {
             emptyAnimaton.isHidden = true
         }
         
+        print(duplicateLists)
         print(duplicateImageData)
 
     }
@@ -75,6 +76,17 @@ class DuplicateImageViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         view.addSubview(emptyAnimaton)
+        
+        var newDuplicateImageData: [Data] = []
+        
+        for idx in 0..<duplicateImageData.count/2 {
+            duplicateFileLists.removeValue(forKey: duplicateImageData[idx])
+        }
+        for idx in duplicateImageData.count/2..<duplicateImageData.count {
+            newDuplicateImageData.append(duplicateImageData[idx])
+        }
+        
+        duplicateImageData = newDuplicateImageData
      
     }
     
@@ -85,7 +97,7 @@ extension DuplicateImageViewController: UICollectionViewDataSource, UICollection
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 
-        return duplicateImageData.count/2
+        return duplicateImageData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -102,11 +114,10 @@ extension DuplicateImageViewController: UICollectionViewDataSource, UICollection
         
         let assets = duplicateLists[duplicateImageData[indexPath.row]]
         
-        var emptyAsset: [PHAsset] = []
         
         PHPhotoLibrary.shared().performChanges({PHAssetChangeRequest.deleteAssets(assets! as NSFastEnumeration)}) { success, error in
             if success {
-                duplicateLists[duplicateImageData[indexPath.row]] = emptyAsset
+                duplicateLists.removeValue(forKey: duplicateImageData[indexPath.row])
                 duplicateImageData.remove(at: indexPath.row)
                 collectionView.deleteItems(at: [indexPath])
             } else {

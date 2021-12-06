@@ -49,6 +49,7 @@ func reqeustsPhotoPermission() {
 }
 
 func requestCollection() {
+    print("gogogogo")
     let cameraRoll: PHFetchResult<PHAssetCollection> = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumUserLibrary, options: nil)
     
     guard let cameraRollCollection = cameraRoll.firstObject else {
@@ -61,37 +62,54 @@ func requestCollection() {
     fetchResult = PHAsset.fetchAssets(in: cameraRollCollection, options: fetchOption)
 
     // 초기화
-    duplicateLists = [:]
-    duplicateImageData = []
-    imageDataList = []
+    
+//    var imageDataList: [Data] = []
+//
+//    var duplicateImageData: [Data] = []
+//
+//    var duplicateLists: [Data:[PHAsset]] = [:]
+//
+    var empty: [Data] = []
+    var empty2: [Data] = []
+    var emptyList: [Data:[PHAsset]] = [:]
+    
+    duplicateLists = emptyList
+    duplicateImageData = empty
+    imageDataList = empty2
+ 
     
     for idx in 0..<fetchResult.count {
         
-        
         let asset = fetchResult.object(at: idx)
         
-        imageManager.requestImage(for: asset, targetSize: CGSize(width: 300, height: 300), contentMode: .aspectFit, options: nil) { image, _ in
+        
+    
+        imageManager.requestImage(for: asset, targetSize: CGSize(width: 150, height: 150), contentMode: .aspectFit, options: nil) { image, _ in
             
-            if imageDataList.contains((image?.pngData())!) {
+            guard let imgData = image?.pngData() else {return}
+            
+   
+            if imageDataList.contains(imgData) {
                 WatchDuplicateViewButton.setImage(image, for: .normal)
-                
-                if !duplicateImageData.contains((image?.pngData())!) {
-                    duplicateImageData.append((image?.pngData())!)
-                    duplicateLists[(image?.pngData())!] = [asset]
+                    
+                if !duplicateImageData.contains(imgData) {
+                    duplicateImageData.append(imgData)
+                    duplicateLists[imgData] = [asset]
+                    print(imgData)
                 } else {
-                    var dupData = duplicateLists[(image?.pngData())!]
+                    var dupData = duplicateLists[imgData]
                     dupData?.append(asset)
-                    duplicateLists[(image?.pngData())!] = dupData
+                    duplicateLists[imgData] = dupData
                 }
-                
+                    
                 print(idx)
             } else {
-                imageDataList.append((image?.pngData())!)
+                imageDataList.append(imgData)
             }
-            
-            OperationQueue.main.addOperation {
-                print(fetchResult.count)
-            }
+                
+    //            OperationQueue.main.addOperation {
+    //                print(fetchResult.count)
+    //            }
 
             
         }

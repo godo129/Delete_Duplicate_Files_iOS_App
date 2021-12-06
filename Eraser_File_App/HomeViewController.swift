@@ -7,6 +7,7 @@
 
 import UIKit
 import Photos
+import Lottie
 
 let WatchDuplicateViewButton: UIButton = {
     let WatchDuplicateButton = UIButton()
@@ -27,9 +28,19 @@ class HomeViewController: UIViewController {
     
     private let getRootURL: UIButton = {
         let getRootURL = UIButton()
-        getRootURL.backgroundColor = .gray
+        getRootURL.backgroundColor = .clear
         return getRootURL
     }()
+    
+    private let chooseFileURL: AnimationView = {
+        var chooseFileURL = AnimationView()
+        chooseFileURL = .init(name: "findDocuments")
+        chooseFileURL.play()
+        chooseFileURL.loopMode = .loop
+        return chooseFileURL
+    }()
+    
+    
     
     private let FileViewButton: UIButton = {
         let FileViewButton = UIButton()
@@ -41,10 +52,12 @@ class HomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.addSubview(WatchDuplicateButton)
         view.addSubview(WatchDuplicateViewButton)
         
-        view.addSubview(FileViewButton)
+//        view.addSubview(FileViewButton)
+        view.addSubview(chooseFileURL)
         view.addSubview(getRootURL)
 
         WatchDuplicateButton.addTarget(self, action: #selector(WatchDuplicateButtonTapped), for: .touchUpInside)
@@ -55,22 +68,22 @@ class HomeViewController: UIViewController {
         getRootURL.addTarget(self, action: #selector(getRootURLTapped), for: .touchUpInside)
         
         
+        
+        
         // 백그라운드에서 다시 앱으로 돌아오는 것을 알아 채게 하기
         let notificationCenter = NotificationCenter.default
         notificationCenter.addObserver(self, selector: #selector(appCameToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
         
-        
-
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
         registerPhotoLibrary()
-    
 
-        
     }
+//
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+
+//
+//
+//    }
     
     @objc func appCameToForeground() {
         reqeustsPhotoPermission()
@@ -85,9 +98,18 @@ class HomeViewController: UIViewController {
         
         WatchDuplicateViewButton.frame = CGRect(x: 30, y: 600, width: view.frame.width-60, height: 300)
         
-        FileViewButton.frame = CGRect(x: 30, y: 350, width: view.frame.width-260, height: 200)
-        getRootURL.frame = CGRect(x: FileViewButton.frame.origin.x
-                                    + FileViewButton.frame.width, y: FileViewButton.frame.origin.y, width: 300, height: 200)
+//        FileViewButton.frame = CGRect(x: 30, y: 350, width: view.frame.width-260, height: 200)
+        chooseFileURL.frame = CGRect(x: 30, y: 350, width: view.frame.width-60, height: 200)
+//        getRootURL.frame = CGRect(x: FileViewButton.frame.origin.x
+//                                    + FileViewButton.frame.width, y: FileViewButton.frame.origin.y, width: 300, height: 200)
+        getRootURL.frame = chooseFileURL.frame
+    }
+    
+    @objc private func chooseFileURLTapped(_ gesture: UITapGestureRecognizer) {
+        let documentPikcer = UIDocumentPickerViewController(forOpeningContentTypes: [.data])
+        documentPikcer.delegate = self
+//        documentPikcer.allowsMultipleSelection = true
+        present(documentPikcer, animated: true, completion: nil)
     }
     
     @objc private func WatchDuplicateViewButtonTapped() {
@@ -101,7 +123,7 @@ class HomeViewController: UIViewController {
     @objc private func getRootURLTapped() {
         let documentPikcer = UIDocumentPickerViewController(forOpeningContentTypes: [.data])
         documentPikcer.delegate = self
-        documentPikcer.allowsMultipleSelection = true
+//        documentPikcer.allowsMultipleSelection = true
         present(documentPikcer, animated: true, completion: nil)
         
     }
@@ -216,7 +238,6 @@ extension HomeViewController: UIDocumentPickerDelegate {
         
         rootURL = urls.first?.deletingLastPathComponent()
         
-        print(rootURL.path)
         
 //        guard let selectedFileURL = urls.first else {
 //            return
@@ -248,6 +269,8 @@ extension HomeViewController: UIDocumentPickerDelegate {
             
 
         getData(fileUrl: rootURL)
+        
+        moveView(viewName: "DuplicateFileView")
     }
 
 }
