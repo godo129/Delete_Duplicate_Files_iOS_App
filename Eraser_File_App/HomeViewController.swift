@@ -8,6 +8,7 @@
 import UIKit
 import Photos
 import Lottie
+import FSPagerView
 
 let WatchDuplicateViewButton: UIButton = {
     let WatchDuplicateButton = UIButton()
@@ -18,6 +19,13 @@ let WatchDuplicateViewButton: UIButton = {
 class HomeViewController: UIViewController {
     
     let filemg = FileManager.default
+    
+    private let imageController: FSPagerView = {
+        var imageConroller = FSPagerView()
+        imageConroller.transformer = FSPagerViewTransformer(type: .zoomOut)
+        imageConroller.isInfinite = true
+        return imageConroller
+    }()
    
     
     private let WatchDuplicateButton: UIButton = {
@@ -53,12 +61,18 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.addSubview(WatchDuplicateButton)
-        view.addSubview(WatchDuplicateViewButton)
+//        view.addSubview(WatchDuplicateButton)
+//        view.addSubview(WatchDuplicateViewButton)
         
 //        view.addSubview(FileViewButton)
         view.addSubview(chooseFileURL)
         view.addSubview(getRootURL)
+        
+        imageController.register(FSPagerViewCell.self, forCellWithReuseIdentifier: "photoCell")
+        imageController.delegate = self
+        imageController.dataSource = self
+        view.addSubview(imageController)
+        
 
         WatchDuplicateButton.addTarget(self, action: #selector(WatchDuplicateButtonTapped), for: .touchUpInside)
         
@@ -94,9 +108,11 @@ class HomeViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        WatchDuplicateButton.frame = CGRect(x: 30, y: 100, width: view.frame.width-60, height: 300)
+        imageController.frame = CGRect(x: 30, y: 100, width: view.frame.width-60, height: 300)
         
-        WatchDuplicateViewButton.frame = CGRect(x: 30, y: 600, width: view.frame.width-60, height: 300)
+//        WatchDuplicateButton.frame = CGRect(x: 30, y: 100, width: view.frame.width-60, height: 300)
+//
+//        WatchDuplicateViewButton.frame = CGRect(x: 30, y: 600, width: view.frame.width-60, height: 300)
         
 //        FileViewButton.frame = CGRect(x: 30, y: 350, width: view.frame.width-260, height: 200)
         chooseFileURL.frame = CGRect(x: 30, y: 350, width: view.frame.width-60, height: 200)
@@ -105,12 +121,6 @@ class HomeViewController: UIViewController {
         getRootURL.frame = chooseFileURL.frame
     }
     
-    @objc private func chooseFileURLTapped(_ gesture: UITapGestureRecognizer) {
-        let documentPikcer = UIDocumentPickerViewController(forOpeningContentTypes: [.data])
-        documentPikcer.delegate = self
-//        documentPikcer.allowsMultipleSelection = true
-        present(documentPikcer, animated: true, completion: nil)
-    }
     
     @objc private func WatchDuplicateViewButtonTapped() {
         moveView(viewName: "DuplicateImageView")
@@ -121,7 +131,7 @@ class HomeViewController: UIViewController {
     }
     
     @objc private func getRootURLTapped() {
-        let documentPikcer = UIDocumentPickerViewController(forOpeningContentTypes: [.data])
+        let documentPikcer = UIDocumentPickerViewController(forOpeningContentTypes: [.folder])
         documentPikcer.delegate = self
 //        documentPikcer.allowsMultipleSelection = true
         present(documentPikcer, animated: true, completion: nil)
@@ -271,6 +281,41 @@ extension HomeViewController: UIDocumentPickerDelegate {
         getData(fileUrl: rootURL)
         
         moveView(viewName: "DuplicateFileView")
+        
     }
+    
+    
 
+}
+
+extension HomeViewController: FSPagerViewDelegate,FSPagerViewDataSource {
+    
+    func numberOfItems(in pagerView: FSPagerView) -> Int {
+        return 2
+    }
+    
+    func pagerView(_ pagerView: FSPagerView, cellForItemAt index: Int) -> FSPagerViewCell {
+        let cell = pagerView.dequeueReusableCell(withReuseIdentifier: "photoCell", at: index)
+        
+        switch index {
+        case 0:
+            cell.imageView?.image = representImage
+            cell.textLabel?.text = "\(duplicateImageCount)"
+        default:
+            cell.imageView?.image = representImage
+            cell.textLabel?.text = "사진 정보 보기"
+        }
+    
+        
+        return cell
+    }
+    
+    func pagerView(_ pagerView: FSPagerView, didSelectItemAt index: Int) {
+        switch index {
+        case 0:
+            moveView(viewName: "DuplicateImageView")
+        default:
+            moveView(viewName: "DuplicateView")
+        }
+    }
 }
