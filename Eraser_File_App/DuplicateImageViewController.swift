@@ -18,8 +18,12 @@ class DuplicateImageViewController: UIViewController {
         registerPhotoLibrary()
         
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 150, height: 150)
-        layout.scrollDirection = .horizontal
+        layout.scrollDirection = .vertical
+        // 셀 크기 정하기
+        layout.itemSize = CGSize(width: view.frame.size.width/2-2, height: view.frame.size.width/3-4)
+        // 셀마다 공간 정하기
+        layout.minimumLineSpacing = 1
+        layout.minimumInteritemSpacing = 1
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)

@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		51031FF3E6CD03FA3A5ED9ED /* Pods_Eraser_File_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B531DCB3A5BA772615AC44F8 /* Pods_Eraser_File_App.framework */; };
 		F160808E275C5BC800D8356E /* FileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F160808D275C5BC800D8356E /* FileViewController.swift */; };
 		F1608090275D247300D8356E /* DuplicateFileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F160808F275D247300D8356E /* DuplicateFileViewController.swift */; };
+		F1608095275DD7A400D8356E /* emptyBox.json in Resources */ = {isa = PBXBuildFile; fileRef = F1608094275DD7A400D8356E /* emptyBox.json */; };
 		F1808326275B300900F6A9CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1808325275B300900F6A9CC /* AppDelegate.swift */; };
 		F1808328275B300900F6A9CC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1808327275B300900F6A9CC /* SceneDelegate.swift */; };
 		F180832A275B300900F6A9CC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1808329275B300900F6A9CC /* ViewController.swift */; };
@@ -23,8 +25,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		110ED6812916246100BE1403 /* Pods-Eraser_File_App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Eraser_File_App.debug.xcconfig"; path = "Target Support Files/Pods-Eraser_File_App/Pods-Eraser_File_App.debug.xcconfig"; sourceTree = "<group>"; };
+		8F08C4DCB85871082150A55F /* Pods-Eraser_File_App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Eraser_File_App.release.xcconfig"; path = "Target Support Files/Pods-Eraser_File_App/Pods-Eraser_File_App.release.xcconfig"; sourceTree = "<group>"; };
+		B531DCB3A5BA772615AC44F8 /* Pods_Eraser_File_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Eraser_File_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F160808D275C5BC800D8356E /* FileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileViewController.swift; sourceTree = "<group>"; };
 		F160808F275D247300D8356E /* DuplicateFileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuplicateFileViewController.swift; sourceTree = "<group>"; };
+		F1608094275DD7A400D8356E /* emptyBox.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = emptyBox.json; path = ../../../../../Downloads/emptyBox.json; sourceTree = "<group>"; };
 		F1808322275B300900F6A9CC /* Eraser_File_App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eraser_File_App.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1808325275B300900F6A9CC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F1808327275B300900F6A9CC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -45,17 +51,46 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				51031FF3E6CD03FA3A5ED9ED /* Pods_Eraser_File_App.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		409432C6BE60BA723B2F722F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				110ED6812916246100BE1403 /* Pods-Eraser_File_App.debug.xcconfig */,
+				8F08C4DCB85871082150A55F /* Pods-Eraser_File_App.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		CFFE732DEAD280E0FB406873 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B531DCB3A5BA772615AC44F8 /* Pods_Eraser_File_App.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F1608093275DD79500D8356E /* animation */ = {
+			isa = PBXGroup;
+			children = (
+				F1608094275DD7A400D8356E /* emptyBox.json */,
+			);
+			path = animation;
+			sourceTree = "<group>";
+		};
 		F1808319275B300900F6A9CC = {
 			isa = PBXGroup;
 			children = (
 				F1808324275B300900F6A9CC /* Eraser_File_App */,
 				F1808323275B300900F6A9CC /* Products */,
+				409432C6BE60BA723B2F722F /* Pods */,
+				CFFE732DEAD280E0FB406873 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -70,6 +105,7 @@
 		F1808324275B300900F6A9CC /* Eraser_File_App */ = {
 			isa = PBXGroup;
 			children = (
+				F1608093275DD79500D8356E /* animation */,
 				F1808341275B988000F6A9CC /* Datas */,
 				F180833D275B91B300F6A9CC /* Resource */,
 				F1808329275B300900F6A9CC /* ViewController.swift */,
@@ -111,9 +147,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F1808336275B300B00F6A9CC /* Build configuration list for PBXNativeTarget "Eraser_File_App" */;
 			buildPhases = (
+				6E35695B6EDA286F51056A4C /* [CP] Check Pods Manifest.lock */,
 				F180831E275B300900F6A9CC /* Sources */,
 				F180831F275B300900F6A9CC /* Frameworks */,
 				F1808320275B300900F6A9CC /* Resources */,
+				32C0F1671BF7D4A19434AA58 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -162,12 +200,55 @@
 			buildActionMask = 2147483647;
 			files = (
 				F1808332275B300B00F6A9CC /* LaunchScreen.storyboard in Resources */,
+				F1608095275DD7A400D8356E /* emptyBox.json in Resources */,
 				F180832F275B300B00F6A9CC /* Assets.xcassets in Resources */,
 				F180832D275B300900F6A9CC /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		32C0F1671BF7D4A19434AA58 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Eraser_File_App/Pods-Eraser_File_App-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Eraser_File_App/Pods-Eraser_File_App-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Eraser_File_App/Pods-Eraser_File_App-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6E35695B6EDA286F51056A4C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Eraser_File_App-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F180831E275B300900F6A9CC /* Sources */ = {
@@ -327,6 +408,7 @@
 		};
 		F1808337275B300B00F6A9CC /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 110ED6812916246100BE1403 /* Pods-Eraser_File_App.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -345,6 +427,7 @@
 		};
 		F1808338275B300B00F6A9CC /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F08C4DCB85871082150A55F /* Pods-Eraser_File_App.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
