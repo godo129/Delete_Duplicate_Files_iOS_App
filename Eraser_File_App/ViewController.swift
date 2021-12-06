@@ -269,6 +269,7 @@ extension ViewController: PHPhotoLibraryChangeObserver {
 
         OperationQueue.main.addOperation {
             self.tableView.reloadSections(IndexSet(0...0), with: .automatic)
+            self.collectionVeiw.reloadSections(IndexSet(0...0))
         }
     }
 }
@@ -290,8 +291,17 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
         
         imageManager.requestImage(for: asset, targetSize: CGSize(width: 300, height: 300), contentMode: .aspectFit, options: nil) { image, _ in
             cell.ExerciseImage.image = image
-            cell.ExerciseLabel.isHidden = true 
+            cell.ExerciseLabel.isHidden = true
         }
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let asset = fetchResult?[indexPath.row]
+        PHPhotoLibrary.shared().performChanges({PHAssetChangeRequest.deleteAssets([asset] as NSFastEnumeration)}, completionHandler: nil)
+    
+        OperationQueue.main.addOperation {
+            self.collectionVeiw.reloadData()
+        }
     }
 }
