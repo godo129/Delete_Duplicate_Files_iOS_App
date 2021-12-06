@@ -64,8 +64,10 @@ class DuplicateFileViewController: UIViewController {
         super.viewWillAppear(animated)
         
         view.addSubview(emptyAnimaton)
-//
-//        emptyAnimaton.isHidden = true
+        
+        
+        
+
     }
     
     
