@@ -68,12 +68,13 @@ class ViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         // 셀 크기 정하기
-        layout.itemSize = CGSize(width: view.frame.size.width/2-2, height: view.frame.size.width/2-2+100)
+        layout.itemSize = CGSize(width: view.frame.size.width/2-1, height: view.frame.size.width/2-2+100)
         // 셀마다 공간 정하기
         layout.minimumLineSpacing = 1
         layout.minimumInteritemSpacing = 1
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         collectionVeiw = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionVeiw.backgroundColor = .white
         
         view.addSubview(collectionVeiw)
         collectionVeiw.register(ImagesCollectionViewCell.self, forCellWithReuseIdentifier: "imageCell")
@@ -209,6 +210,8 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
             cell.ExerciseImage.image = image
             cell.ExerciseLabel.isHidden = true
         }
+        cell.layer.borderWidth = 2
+        cell.layer.borderColor = UIColor.black.cgColor
         return cell
     }
     
