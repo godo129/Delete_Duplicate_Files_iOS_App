@@ -76,6 +76,7 @@ class DuplicateImageViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         view.addSubview(emptyAnimaton)
+        emptyAnimaton.backgroundBehavior = .pauseAndRestore
         
         var newDuplicateImageData: [Data] = []
         

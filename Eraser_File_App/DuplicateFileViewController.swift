@@ -64,9 +64,8 @@ class DuplicateFileViewController: UIViewController {
         super.viewWillAppear(animated)
         
         view.addSubview(emptyAnimaton)
-        
-        
-        
+        emptyAnimaton.backgroundBehavior = .pauseAndRestore
+    
 
     }
     
