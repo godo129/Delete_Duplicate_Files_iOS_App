@@ -3,14 +3,15 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		51031FF3E6CD03FA3A5ED9ED /* Pods_Eraser_File_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B531DCB3A5BA772615AC44F8 /* Pods_Eraser_File_App.framework */; };
 		F160808E275C5BC800D8356E /* FileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F160808D275C5BC800D8356E /* FileViewController.swift */; };
 		F1608090275D247300D8356E /* DuplicateFileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F160808F275D247300D8356E /* DuplicateFileViewController.swift */; };
-		F1608095275DD7A400D8356E /* emptyBox.json in Resources */ = {isa = PBXBuildFile; fileRef = F1608094275DD7A400D8356E /* emptyBox.json */; };
+		F1608097275E2F8300D8356E /* emptyBox.json in Resources */ = {isa = PBXBuildFile; fileRef = F1608096275E2F8300D8356E /* emptyBox.json */; };
+		F1608099275E2F9200D8356E /* findDocuments.json in Resources */ = {isa = PBXBuildFile; fileRef = F1608098275E2F9200D8356E /* findDocuments.json */; };
 		F1808326275B300900F6A9CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1808325275B300900F6A9CC /* AppDelegate.swift */; };
 		F1808328275B300900F6A9CC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1808327275B300900F6A9CC /* SceneDelegate.swift */; };
 		F180832A275B300900F6A9CC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1808329275B300900F6A9CC /* ViewController.swift */; };
@@ -30,7 +31,8 @@
 		B531DCB3A5BA772615AC44F8 /* Pods_Eraser_File_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Eraser_File_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F160808D275C5BC800D8356E /* FileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileViewController.swift; sourceTree = "<group>"; };
 		F160808F275D247300D8356E /* DuplicateFileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DuplicateFileViewController.swift; sourceTree = "<group>"; };
-		F1608094275DD7A400D8356E /* emptyBox.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = emptyBox.json; path = ../../../../../Downloads/emptyBox.json; sourceTree = "<group>"; };
+		F1608096275E2F8300D8356E /* emptyBox.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = emptyBox.json; path = ../../../animation/emptyBox.json; sourceTree = "<group>"; };
+		F1608098275E2F9200D8356E /* findDocuments.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = findDocuments.json; path = ../../../animation/findDocuments.json; sourceTree = "<group>"; };
 		F1808322275B300900F6A9CC /* Eraser_File_App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eraser_File_App.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1808325275B300900F6A9CC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F1808327275B300900F6A9CC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -64,7 +66,6 @@
 				110ED6812916246100BE1403 /* Pods-Eraser_File_App.debug.xcconfig */,
 				8F08C4DCB85871082150A55F /* Pods-Eraser_File_App.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -79,7 +80,8 @@
 		F1608093275DD79500D8356E /* animation */ = {
 			isa = PBXGroup;
 			children = (
-				F1608094275DD7A400D8356E /* emptyBox.json */,
+				F1608096275E2F8300D8356E /* emptyBox.json */,
+				F1608098275E2F9200D8356E /* findDocuments.json */,
 			);
 			path = animation;
 			sourceTree = "<group>";
@@ -200,7 +202,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				F1808332275B300B00F6A9CC /* LaunchScreen.storyboard in Resources */,
-				F1608095275DD7A400D8356E /* emptyBox.json in Resources */,
+				F1608099275E2F9200D8356E /* findDocuments.json in Resources */,
+				F1608097275E2F8300D8356E /* emptyBox.json in Resources */,
 				F180832F275B300B00F6A9CC /* Assets.xcassets in Resources */,
 				F180832D275B300900F6A9CC /* Main.storyboard in Resources */,
 			);

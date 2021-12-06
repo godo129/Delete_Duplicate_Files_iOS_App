@@ -7,10 +7,21 @@
 
 import UIKit
 import Photos
+import Lottie
 
 class DuplicateImageViewController: UIViewController {
 
-    var collectionView: UICollectionView!
+    private var collectionView: UICollectionView!
+    
+    private let emptyAnimaton: AnimationView = {
+        var emptyAnimation = AnimationView()
+        emptyAnimation = .init(name: "emptyBox")
+        emptyAnimation.loopMode = .loop
+        emptyAnimation.contentMode = .scaleAspectFit
+        emptyAnimation.animationSpeed = 1.2
+        emptyAnimation.play()
+        return emptyAnimation
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,9 +46,17 @@ class DuplicateImageViewController: UIViewController {
         
         collectionView.register(ImagesCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         
+        collectionView.backgroundColor = .white
+        
         view.addSubview(collectionView)
         
+        if duplicateImageData.isEmpty {
+            emptyAnimaton.isHidden = false
+        } else {
+            emptyAnimaton.isHidden = true
+        }
         
+        print(duplicateImageData)
 
     }
     
@@ -48,9 +67,18 @@ class DuplicateImageViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        emptyAnimaton.frame = view.bounds
+        
         
     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        view.addSubview(emptyAnimaton)
+     
+    }
+    
+    
 }
 
 extension DuplicateImageViewController: UICollectionViewDataSource, UICollectionViewDelegate {
@@ -74,15 +102,22 @@ extension DuplicateImageViewController: UICollectionViewDataSource, UICollection
         
         let assets = duplicateLists[duplicateImageData[indexPath.row]]
         
+        var emptyAsset: [PHAsset] = []
         
         PHPhotoLibrary.shared().performChanges({PHAssetChangeRequest.deleteAssets(assets! as NSFastEnumeration)}) { success, error in
             if success {
-                duplicateLists.removeValue(forKey: duplicateImageData[indexPath.row])
+                duplicateLists[duplicateImageData[indexPath.row]] = emptyAsset
                 duplicateImageData.remove(at: indexPath.row)
                 collectionView.deleteItems(at: [indexPath])
             } else {
                 return
             }
+        }
+        
+        collectionView.reloadData()
+        
+        if duplicateImageData.isEmpty {
+            emptyAnimaton.isHidden = false
         }
 
     }

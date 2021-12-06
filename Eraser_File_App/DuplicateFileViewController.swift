@@ -6,12 +6,23 @@
 //
 
 import UIKit
+import Lottie
 
 class DuplicateFileViewController: UIViewController {
     
-    let filemg = FileManager.default
+    private let filemg = FileManager.default
     
-    var collectionView: UICollectionView!
+    private var collectionView: UICollectionView!
+    
+    private let emptyAnimaton: AnimationView = {
+        var emptyAnimation = AnimationView()
+        emptyAnimation = .init(name: "emptyBox")
+        emptyAnimation.loopMode = .loop
+        emptyAnimation.contentMode = .scaleAspectFit
+        emptyAnimation.animationSpeed = 1.2
+        emptyAnimation.play()
+        return emptyAnimation
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,9 +46,26 @@ class DuplicateFileViewController: UIViewController {
         
         collectionView.register(ImagesCollectionViewCell.self, forCellWithReuseIdentifier: "fileCell")
         
+        collectionView.backgroundColor = .white
+        
         view.addSubview(collectionView)
 //
 //        getData(fileUrl: rootURL)
+        
+        if duplicateFileData.isEmpty {
+            emptyAnimaton.isHidden = false
+        } else {
+            emptyAnimaton.isHidden = true 
+        }
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        view.addSubview(emptyAnimaton)
+//
+//        emptyAnimaton.isHidden = true
     }
     
     
@@ -110,6 +138,12 @@ class DuplicateFileViewController: UIViewController {
         
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        emptyAnimaton.frame = view.bounds
+    }
+    
 
 
 }
@@ -154,6 +188,10 @@ extension DuplicateFileViewController: UICollectionViewDataSource, UICollectionV
         collectionView.deleteItems(at: [indexPath])
         
         collectionView.reloadData()
+        
+        if duplicateFileData.isEmpty {
+            emptyAnimaton.isHidden = false
+        }
 
     }
     
