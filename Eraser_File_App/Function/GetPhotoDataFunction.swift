@@ -49,7 +49,7 @@ func reqeustsPhotoPermission() {
 }
 
 func requestCollection() {
-    print("gogogogo")
+
     let cameraRoll: PHFetchResult<PHAssetCollection> = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumUserLibrary, options: nil)
     
     guard let cameraRollCollection = cameraRoll.firstObject else {
@@ -78,6 +78,8 @@ func requestCollection() {
     imageDataList = empty2
     
     duplicateImageCount = 0
+    
+    var count = 0
  
     
     for idx in 0..<fetchResult.count {
@@ -85,40 +87,44 @@ func requestCollection() {
         let asset = fetchResult.object(at: idx)
         
         
-    
         imageManager.requestImage(for: asset, targetSize: CGSize(width: 150, height: 150), contentMode: .aspectFit, options: nil) { image, _ in
             
-            guard let imgData = image?.pngData() else {return}
-            
-   
-            if imageDataList.contains(imgData) {
-                WatchDuplicateViewButton.setImage(image, for: .normal)
-                representImage = UIImage(data: imgData)!
-                duplicateImageCount += 1
-                    
-                if !duplicateImageData.contains(imgData) {
-                    duplicateImageData.append(imgData)
-                    duplicateLists[imgData] = [asset]
-                    
-                } else {
-                    
-                    var dupData = duplicateLists[imgData]
-                    dupData?.append(asset)
-                    duplicateLists[imgData] = dupData
-                }
-                    
-                print(idx)
-            } else {
-                imageDataList.append(imgData)
-            }
+            if count >= fetchResult.count {
+                let imgData = (image?.pngData())!
                 
-    //            OperationQueue.main.addOperation {
-    //                print(fetchResult.count)
-    //            }
-
+       
+                if imageDataList.contains(imgData) {
+                    
+                    representImage = UIImage(data: imgData)!
+                    duplicateImageCount += 1
+                        
+                    if !duplicateImageData.contains(imgData) {
+                        duplicateImageData.append(imgData)
+                        duplicateLists[imgData] = [asset]
+                        
+                    } else {
+                        
+                        var dupData = duplicateLists[imgData]
+                        dupData?.append(asset)
+                        duplicateLists[imgData] = dupData
+                    }
+                        
+                } else {
+                    imageDataList.append(imgData)
+                }
+            }
             
+            
+            count += 1
+  
         }
    
     }
-    
+//
+//    if duplicateImageCount >= 1  {
+//        representImage = UIImage(data: duplicateImageData[0])!
+//    } else {
+//        representImage = UIImage(named: "defaultImage")!
+//    }
+ 
 }
