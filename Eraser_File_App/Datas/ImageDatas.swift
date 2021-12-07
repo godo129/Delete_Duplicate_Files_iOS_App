@@ -30,5 +30,7 @@ var duplicateFileData: [Data] = []
 
 var duplicateFileLists: [Data:[URL]] = [:]
 
+var duplicateFileCount: Int = 0
+
 
 var rootURL: URL!

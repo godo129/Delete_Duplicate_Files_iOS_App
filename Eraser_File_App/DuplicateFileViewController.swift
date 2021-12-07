@@ -119,6 +119,8 @@ class DuplicateFileViewController: UIViewController {
             self.deleteAllButton.isHidden = true
             
             self.collectionView.removeFromSuperview()
+            
+            duplicateFileCount = 0
                
                 
             
@@ -231,6 +233,8 @@ extension DuplicateFileViewController: UICollectionViewDataSource, UICollectionV
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let toDeleteURLs = duplicateFileLists[duplicateFileData[indexPath.row]]!
+        
+        duplicateFileCount -= toDeleteURLs.count
         
         for toDeleteURL in toDeleteURLs {
             do{
