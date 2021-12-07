@@ -219,12 +219,26 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
         let asset = fetchResult?[indexPath.row]
         PHPhotoLibrary.shared().performChanges({PHAssetChangeRequest.deleteAssets([asset] as NSFastEnumeration)}) { success, error in
             if success {
-                reqeustsPhotoPermission()
+                
+                OperationQueue.main.addOperation {
+                    reqeustsPhotoPermission()
+                    representImage = UIImage(named: "defaultImage")!
+                    self.collectionVeiw.reloadData()
+                    
+                    guard let asset: PHAsset = fetchResult?.object(at: 0) else {
+                        return
+                    }
+                    
+                    
+                    self.imageManager.requestImage(for: asset, targetSize: CGSize(width: 300, height: 300), contentMode: .aspectFit, options: nil) { image, _ in
+                        
+                        representImage2 = image!
+                        
+                    }
+                }
+                
             }
             
-            OperationQueue.main.addOperation {
-                self.collectionVeiw.reloadData()
-            }
             
         }
     
