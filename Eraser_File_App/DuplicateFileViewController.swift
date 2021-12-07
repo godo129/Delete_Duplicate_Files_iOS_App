@@ -232,36 +232,44 @@ extension DuplicateFileViewController: UICollectionViewDataSource, UICollectionV
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        let toDeleteURLs = duplicateFileLists[duplicateFileData[indexPath.row]]!
-        
-        duplicateFileCount -= toDeleteURLs.count
-        
-        for toDeleteURL in toDeleteURLs {
-            do{
-                try filemg.removeItem(at: toDeleteURL)
-                
-            } catch {
-                print("delete errored")
+        let alert = UIAlertController(title: "", message: "삭제하시겠습니까?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "네", style: .default, handler: { _ in
+            let toDeleteURLs = duplicateFileLists[duplicateFileData[indexPath.row]]!
+            
+            duplicateFileCount -= toDeleteURLs.count
+            
+            for toDeleteURL in toDeleteURLs {
+                do{
+                    try self.filemg.removeItem(at: toDeleteURL)
+                    
+                } catch {
+                    print("delete errored")
+                }
             }
-        }
+            
+            duplicateFileLists.removeValue(forKey: duplicateFileData[indexPath.row])
+            
+            var empty: [URL] = []
+            
+            duplicateFileLists[duplicateFileData[indexPath.row]] = empty
+            
+            duplicateFileData.remove(at: indexPath.row)
+            
+            
+            collectionView.deleteItems(at: [indexPath])
+            
+            collectionView.reloadData()
+            
+            if duplicateFileData.isEmpty {
+                self.emptyAnimaton.isHidden = false
+                self.deleteAllButton.isHidden = true
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "아니요", style: .cancel, handler: nil))
         
-        duplicateFileLists.removeValue(forKey: duplicateFileData[indexPath.row])
-        
-        var empty: [URL] = []
-        
-        duplicateFileLists[duplicateFileData[indexPath.row]] = empty
-        
-        duplicateFileData.remove(at: indexPath.row)
+        present(alert, animated: false, completion: nil)
         
         
-        collectionView.deleteItems(at: [indexPath])
-        
-        collectionView.reloadData()
-        
-        if duplicateFileData.isEmpty {
-            emptyAnimaton.isHidden = false
-            deleteAllButton.isHidden = true
-        }
 
     }
     
