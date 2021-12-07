@@ -14,6 +14,18 @@ class DuplicateFileViewController: UIViewController {
     
     private var collectionView: UICollectionView!
     
+    private let deleteAllButton: UIButton = {
+        let deleteAllButton = UIButton()
+        deleteAllButton.setTitle("전부 삭제", for: .normal)
+        deleteAllButton.setTitleColor(.black, for: .normal)
+        deleteAllButton.backgroundColor = .white
+        deleteAllButton.layer.borderWidth = 2
+        deleteAllButton.layer.borderColor = UIColor.black.cgColor
+        deleteAllButton.layer.cornerRadius = 10
+        deleteAllButton.layer.opacity = 0.7
+        return deleteAllButton
+    }()
+    
     private let emptyAnimaton: AnimationView = {
         var emptyAnimation = AnimationView()
         emptyAnimation = .init(name: "emptyBox")
@@ -52,10 +64,14 @@ class DuplicateFileViewController: UIViewController {
 //
 //        getData(fileUrl: rootURL)
         
+        deleteAllButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
+        
         if duplicateFileData.isEmpty {
             emptyAnimaton.isHidden = false
+            deleteAllButton.isHidden = true
         } else {
-            emptyAnimaton.isHidden = true 
+            emptyAnimaton.isHidden = true
+            deleteAllButton.isHidden = false
         }
 
     }
@@ -63,10 +79,55 @@ class DuplicateFileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        view.addSubview(deleteAllButton)
         view.addSubview(emptyAnimaton)
         emptyAnimaton.backgroundBehavior = .pauseAndRestore
     
 
+    }
+    
+    @objc private func deleteButtonTapped() {
+        
+        let alert = UIAlertController(title: "", message: "정말로 삭제하시겠습니까?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { _ in
+            
+            var indexPath: [IndexPath] = []
+            for i in 0..<duplicateFileData.count {
+                
+                let index = IndexPath(row: i, section: 0)
+                indexPath.append(index)
+                
+                let toDeleteURLs = duplicateFileLists[duplicateFileData[i]]!
+                
+                for toDeleteURL in toDeleteURLs {
+                    do{
+                        try self.filemg.removeItem(at: toDeleteURL)
+                        
+                    } catch {
+                        print("delete errored")
+                    }
+                }
+            }
+            
+                
+            self.collectionView.deleteItems(at: indexPath)
+                
+            self.collectionView.reloadData()
+                
+            self.emptyAnimaton.isHidden = false
+            self.deleteAllButton.isHidden = true
+            
+            self.collectionView.removeFromSuperview()
+               
+                
+            
+        }))
+        present(alert, animated: true) {
+            
+            
+        }
+        
     }
     
     
@@ -88,6 +149,7 @@ class DuplicateFileViewController: UIViewController {
                         let empty: [URL] = []
                         duplicateFileLists[fileData.data] = empty
                     } else {
+                        duplicateFileCount += 1
                         
                         var urlLists: [URL] = duplicateFileLists[fileData.data]!
                         
@@ -143,6 +205,7 @@ class DuplicateFileViewController: UIViewController {
         super.viewDidLayoutSubviews()
         
         emptyAnimaton.frame = view.bounds
+        deleteAllButton.frame = CGRect(x: view.frame.width-100, y: 0, width: 100, height: 40)
     }
     
 
@@ -193,6 +256,7 @@ extension DuplicateFileViewController: UICollectionViewDataSource, UICollectionV
         
         if duplicateFileData.isEmpty {
             emptyAnimaton.isHidden = false
+            deleteAllButton.isHidden = true
         }
 
     }
