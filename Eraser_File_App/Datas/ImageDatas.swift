@@ -22,6 +22,8 @@ var duplicateImageCount: Int = 0
 
 var representImage: UIImage = UIImage(named: "defaultImage")!
 
+var representImage2: UIImage = UIImage(named: "defaultImage")!
+
 
 // 파일 데이터
 var fileURLLists : [Data] = []

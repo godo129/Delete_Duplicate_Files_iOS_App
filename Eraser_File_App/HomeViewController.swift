@@ -114,13 +114,29 @@ class HomeViewController: UIViewController {
         
         OperationQueue.main.addOperation {
             reqeustsPhotoPermission()
+            
+            guard let asset: PHAsset = fetchResult?.object(at: 0) else {
+                return
+            }
+            
+            
+            imageManager.requestImage(for: asset, targetSize: CGSize(width: 300, height: 300), contentMode: .aspectFit, options: nil) { image, _ in
+                
+                representImage2 = image!
+                
+            }
+            
             self.imageController.reloadData()
+            
+            
+            
         }
+        
+        
         
     }
     
-    
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -327,7 +343,7 @@ extension HomeViewController: FSPagerViewDelegate,FSPagerViewDataSource {
             cell.textLabel?.backgroundColor = .clear
             cell.textLabel?.textColor = .black
         default:
-            cell.imageView?.image = UIImage(data: imageDataList[0])
+            cell.imageView?.image = representImage2
             cell.textLabel?.text = "사진 정보 보기"
         }
     
