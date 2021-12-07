@@ -84,15 +84,17 @@ func requestCollection() {
     
     for idx in 0..<fetchResult.count {
         
-        let asset = fetchResult.object(at: idx)
+        guard let asset: PHAsset = fetchResult?.object(at: idx) else {
+            return
+        }
         
         
-        imageManager.requestImage(for: asset, targetSize: CGSize(width: 150, height: 150), contentMode: .aspectFit, options: nil) { image, _ in
+        imageManager.requestImage(for: asset, targetSize: CGSize(width: 300, height: 300), contentMode: .aspectFit, options: nil) { image, _ in
             
             if count >= fetchResult.count {
                 let imgData = (image?.pngData())!
                 
-       
+                
                 if imageDataList.contains(imgData) {
                     
                     representImage = UIImage(data: imgData)!
