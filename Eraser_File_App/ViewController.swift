@@ -221,7 +221,11 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
             if success {
                 reqeustsPhotoPermission()
             }
-            self.collectionVeiw.reloadData()
+            
+            OperationQueue.main.addOperation {
+                self.collectionVeiw.reloadData()
+            }
+            
         }
     
     }
