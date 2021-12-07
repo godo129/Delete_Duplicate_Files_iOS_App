@@ -99,6 +99,7 @@ class HomeViewController: UIViewController {
         notificationCenter.addObserver(self, selector: #selector(appCameToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
         
         registerPhotoLibrary()
+        
 
     }
 //
@@ -110,7 +111,12 @@ class HomeViewController: UIViewController {
 //    }
     
     @objc func appCameToForeground() {
-        reqeustsPhotoPermission()
+        
+        OperationQueue.main.addOperation {
+            reqeustsPhotoPermission()
+            self.imageController.reloadData()
+        }
+        
     }
     
     
@@ -316,12 +322,12 @@ extension HomeViewController: FSPagerViewDelegate,FSPagerViewDataSource {
         switch index {
         case 0:
             cell.imageView?.image = representImage
-            cell.textLabel?.text = "\(duplicateImageCount/2)"
+            cell.textLabel?.text = "\(duplicateImageCount)"
             cell.textLabel?.textAlignment = .center
             cell.textLabel?.backgroundColor = .clear
             cell.textLabel?.textColor = .black
         default:
-            cell.imageView?.image = representImage
+            cell.imageView?.image = UIImage(data: imageDataList[0])
             cell.textLabel?.text = "사진 정보 보기"
         }
     
