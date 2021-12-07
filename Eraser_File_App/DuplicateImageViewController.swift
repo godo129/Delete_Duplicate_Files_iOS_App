@@ -67,8 +67,10 @@ class DuplicateImageViewController: UIViewController {
         
         if duplicateImageData.isEmpty {
             emptyAnimaton.isHidden = false
+            deleteAllButton.isHidden = true
         } else {
             emptyAnimaton.isHidden = true
+            deleteAllButton.isHidden = false
         }
         
         print(duplicateLists)
@@ -94,8 +96,13 @@ class DuplicateImageViewController: UIViewController {
         view.addSubview(emptyAnimaton)
         emptyAnimaton.backgroundBehavior = .pauseAndRestore
         
-        imageDataReList()
      
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        reqeustsPhotoPermission()
     }
     
     private func imageDataReList() {
@@ -112,37 +119,43 @@ class DuplicateImageViewController: UIViewController {
     }
     
     @objc private func deleteButtonTapped() {
-        for idx in 0..<duplicateImageData.count {
+        
+        var toDelDatum: [PHAsset] = []
+    
+        
+        for datum in duplicateImageData {
             
-            let datum = duplicateImageData[idx]
            
             guard let assets = duplicateLists[datum] else {return}
             
-            let toDelNum = assets.count
             
-            PHPhotoLibrary.shared().performChanges({PHAssetChangeRequest.deleteAssets(assets as NSFastEnumeration)}) { success, error in
-                if success {
-                    
-                    duplicateImageCount -= toDelNum*2
-                    representImage = UIImage(named: "defaultImage")!
-                    duplicateImageData.remove(at: idx)
-                    duplicateLists.removeValue(forKey: datum)
-                    let indexPath = IndexPath(row: idx, section: 0)
-                    self.collectionView.deleteItems(at: [indexPath])
-                    self.collectionView.reloadData()
-
-                } else {
-                    return
-                }
-            }
-      
-           
+            toDelDatum += assets
+     
         }
-//        duplicateLists.removeAll()
-//        duplicateImageData.removeAll()
-//
-//        collectionView.reloadData()
         
+        PHPhotoLibrary.shared().performChanges({PHAssetChangeRequest.deleteAssets(toDelDatum as NSFastEnumeration)}) { success, error in
+            if success {
+                
+                duplicateImageCount = 0
+                
+                representImage = UIImage(named: "defaultImage")!
+                
+       
+                duplicateImageData.removeAll()
+                duplicateLists.removeAll()
+                
+
+                OperationQueue.main.addOperation {
+                    self.collectionView.removeFromSuperview()
+                    self.deleteAllButton.isHidden = true
+                    self.emptyAnimaton.isHidden = false
+                }
+
+            }
+            
+            
+        }
+
     }
     
     
@@ -173,23 +186,32 @@ extension DuplicateImageViewController: UICollectionViewDataSource, UICollection
         
         PHPhotoLibrary.shared().performChanges({PHAssetChangeRequest.deleteAssets(assets! as NSFastEnumeration)}) { success, error in
             if success {
-                duplicateImageCount -= 2*toDelNum!
+                duplicateImageCount -= toDelNum!
                 duplicateLists.removeValue(forKey: duplicateImageData[indexPath.row])
                 duplicateImageData.remove(at: indexPath.row)
-                collectionView.deleteItems(at: [indexPath])
+   
+                OperationQueue.main.addOperation {
+                    collectionView.deleteItems(at: [indexPath])
+                    collectionView.reloadData()
+                    if duplicateImageCount <= 0 {
+                        self.emptyAnimaton.isHidden = false
+                        self.deleteAllButton.isHidden = true
+                        representImage = UIImage(named: "defaultImage")!
+                    } else {
+
+                        representImage = UIImage(data: duplicateImageData.first!)!
+                    }
+                   
+                    
+                }
                 
-                representImage = UIImage(named: "defaultImage")!
-                reqeustsPhotoPermission()
-            } else {
-                return
+                
             }
         }
         
-        collectionView.reloadData()
         
-        if duplicateImageData.isEmpty {
-            emptyAnimaton.isHidden = false
-        }
+        
+        
 
     }
     
