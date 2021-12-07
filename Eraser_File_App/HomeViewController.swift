@@ -164,12 +164,23 @@ class HomeViewController: UIViewController {
     
     @objc private func getRootURLTapped() {
         
+        let alert = UIAlertController(title: "", message: "중복된 폴더를 제거하고 싶은 파일을 선택해주세요", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { _ in
+            let documentPikcer = UIDocumentPickerViewController(forOpeningContentTypes: [.folder])
+            documentPikcer.delegate = self
+            documentPikcer.shouldShowFileExtensions = true
+    //        documentPikcer.allowsMultipleSelection = true
+            self.present(documentPikcer, animated: true, completion: nil)
+        }))
         
-        let documentPikcer = UIDocumentPickerViewController(forOpeningContentTypes: [.folder])
-        documentPikcer.delegate = self
-        documentPikcer.shouldShowFileExtensions = true
-//        documentPikcer.allowsMultipleSelection = true
-        present(documentPikcer, animated: true, completion: nil)
+        alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
+        
+//        let documentPikcer = UIDocumentPickerViewController(forOpeningContentTypes: [.folder])
+//        documentPikcer.delegate = self
+//        documentPikcer.shouldShowFileExtensions = true
+////        documentPikcer.allowsMultipleSelection = true
+//        present(documentPikcer, animated: true, completion: nil)
         
     }
     
