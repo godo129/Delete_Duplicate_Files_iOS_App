@@ -127,10 +127,7 @@ class DuplicateImageViewController: UIViewController {
         reqeustsPhotoPermission()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        reqeustsPhotoPermission()
-    }
+
     
     private func imageDataReList() {
         var newDuplicateImageData: [Data] = []
