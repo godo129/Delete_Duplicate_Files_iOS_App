@@ -31,6 +31,18 @@ class ImagesCollectionViewCell: UICollectionViewCell {
             return ExerciseLabel
             
         }()
+    
+    var highlightedIndicator: UIView = {
+        let highlightedIndicator = UIView()
+        return highlightedIndicator
+    }()
+    
+    var selectedIndicator: UIImageView = {
+        let selectedIndicator = UIImageView()
+        selectedIndicator.image = UIImage(named: "check")
+        return selectedIndicator
+    }()
+    
         
         
         override init(frame: CGRect) {
@@ -40,10 +52,29 @@ class ImagesCollectionViewCell: UICollectionViewCell {
             contentView.addSubview(ExerciseImage)
             contentView.addSubview(ExerciseLabel)
             contentView.clipsToBounds = true
+            
+            contentView.addSubview(selectedIndicator)
+            selectedIndicator.isHidden = true
 
+            contentView.addSubview(highlightedIndicator)
             
         
         }
+
+    override var isHighlighted: Bool {
+        didSet {
+            highlightedIndicator.isHidden = !isSelected
+            
+        }
+    }
+    
+    override var isSelected: Bool {
+        didSet {
+            highlightedIndicator.isHidden = !isSelected
+            selectedIndicator.isHidden = !isSelected
+        }
+         
+    }
         
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
@@ -87,5 +118,7 @@ class ImagesCollectionViewCell: UICollectionViewCell {
                                          y: contentView.frame.size.height-30,
                                          width: contentView.frame.size.width,
                                          height: 30)
+            
+            selectedIndicator.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         }
 }

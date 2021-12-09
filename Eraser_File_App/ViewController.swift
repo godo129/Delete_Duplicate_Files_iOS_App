@@ -8,6 +8,10 @@
 import UIKit
 import Photos
 
+var arrData = [PHAsset]()
+var arrSelectedIndex = [IndexPath]()
+var arrSelectedData = [PHAsset]()
+
 class ViewController: UIViewController {
     
 
@@ -19,6 +23,18 @@ class ViewController: UIViewController {
     let imageView = UIImageView()
     
     let deleteButton = UIButton()
+    
+    private let deleteAllButton: UIButton = {
+        let deleteAllButton = UIButton()
+        deleteAllButton.setTitle("삭제", for: .normal)
+        deleteAllButton.setTitleColor(.black, for: .normal)
+        deleteAllButton.backgroundColor = .white
+        deleteAllButton.layer.borderWidth = 2
+        deleteAllButton.layer.borderColor = UIColor.black.cgColor
+        deleteAllButton.layer.cornerRadius = 10
+        deleteAllButton.layer.opacity = 0.7
+        return deleteAllButton
+    }()
     
     
     
@@ -51,10 +67,7 @@ class ViewController: UIViewController {
         
         deleteButton.backgroundColor = .systemRed
         
-        
-        tableView.dataSource = self
-        tableView.delegate = self
-        
+
    
 //        cells.dataSource = self
 //        cells.delegate = self
@@ -79,6 +92,7 @@ class ViewController: UIViewController {
         collectionVeiw.register(ImagesCollectionViewCell.self, forCellWithReuseIdentifier: "imageCell")
         collectionVeiw.dataSource = self
         collectionVeiw.delegate = self
+        collectionVeiw.allowsMultipleSelection = true
         
         
         view.addSubview(imageView)
@@ -92,27 +106,46 @@ class ViewController: UIViewController {
         print(duplicateImageData)
         print(duplicateLists)
         
-        view.addSubview(deleteButton)
+        view.addSubview(deleteAllButton)
+        deleteAllButton.addTarget(self, action: #selector(deleteAllButtonTapped), for: .touchUpInside)
         
-        deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
+
 
         
     }
     
-    @objc private func deleteButtonTapped() {
-        for datum in duplicateImageData {
-            
-            for asset in duplicateLists[datum]! {
-                
-                
-                PHPhotoLibrary.shared().performChanges({PHAssetChangeRequest.deleteAssets([asset] as NSFastEnumeration)}, completionHandler: nil)
-                
-            }
-            
-        }
-        duplicateLists.removeAll()
-        duplicateImageData.removeAll()
+    @objc private func deleteAllButtonTapped() {
+      
+        PHPhotoLibrary.shared().performChanges({PHAssetChangeRequest.deleteAssets(arrSelectedData as NSFastEnumeration)}) { success, error in
+                    if success {
+        
+                        OperationQueue.main.addOperation {
+                            reqeustsPhotoPermission()
+                            representImage = UIImage(named: "defaultImage")!
+                            self.collectionVeiw.reloadData()
+        
+                            guard let asset: PHAsset = fetchResult?.object(at: 0) else {
+                                return
+                            }
+                            
+                            for index in arrSelectedIndex {
+                                self.collectionVeiw.cellForItem(at: index)?.isSelected = false
+                            }
+                            
+                            arrSelectedIndex.removeAll()
+                            arrSelectedData.removeAll()
 
+                            self.imageManager.requestImage(for: asset, targetSize: CGSize(width: 300, height: 300), contentMode: .aspectFit, options: nil) { image, _ in
+        
+                                representImage2 = image!
+        
+                            }
+                        }
+        
+                    }
+        
+        
+                }
         
     }
     
@@ -123,51 +156,14 @@ class ViewController: UIViewController {
         imageView.frame = CGRect(x: 200, y: 200, width: 300, height: 300)
         collectionVeiw.frame = view.bounds
         
+        deleteAllButton.frame = CGRect(x: view.frame.width-100, y: 0, width: 100, height: 40)
+        
     }
     
 
 }
 
-extension ViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return fetchResult.count
-    }
 
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell") else {
-            fatalError("The cell name not exist.")
-        }
-        
-        guard let asset: PHAsset = fetchResult?.object(at: indexPath.row) else {
-            return cell
-        }
-        
-        imageManager.requestImage(for: asset, targetSize: CGSize(width: 300, height: 300), contentMode: .aspectFit, options: nil) { image, _ in
-            cell.imageView?.image = image
-        }
-        
-        return cell
-    }
-    
-    // 삭제
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            let asset = fetchResult?[indexPath.row]
-            PHPhotoLibrary.shared().performChanges({PHAssetChangeRequest.deleteAssets([asset] as NSFastEnumeration)}, completionHandler: nil)
-
-            OperationQueue.main.addOperation {
-                self.tableView.reloadData()
-            }
-        }
-        
-        
-    }
-    
-}
 
 
 extension ViewController: PHPhotoLibraryChangeObserver {
@@ -205,6 +201,13 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
             return cell
         }
         
+        if arrSelectedIndex.contains(indexPath) {
+            cell.selectedIndicator.isHidden = false
+            
+        } else {
+            cell.selectedIndicator.isHidden = true
+        }
+        
         imageManager.requestImage(for: asset, targetSize: CGSize(width: 300, height: 300), contentMode: .aspectFit, options: nil) { image, _ in
             cell.ExerciseImage.image = image
             cell.ExerciseLabel.isHidden = true
@@ -214,32 +217,47 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let asset = fetchResult?[indexPath.row]
-        PHPhotoLibrary.shared().performChanges({PHAssetChangeRequest.deleteAssets([asset] as NSFastEnumeration)}) { success, error in
-            if success {
-                
-                OperationQueue.main.addOperation {
-                    reqeustsPhotoPermission()
-                    representImage = UIImage(named: "defaultImage")!
-                    self.collectionVeiw.reloadData()
-                    
-                    guard let asset: PHAsset = fetchResult?.object(at: 0) else {
-                        return
-                    }
-                    
-                    
-                    self.imageManager.requestImage(for: asset, targetSize: CGSize(width: 300, height: 300), contentMode: .aspectFit, options: nil) { image, _ in
-                        
-                        representImage2 = image!
-                        
-                    }
-                }
-                
-            }
-            
-            
-        }
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        let asset = fetchResult?[indexPath.row]
+//        PHPhotoLibrary.shared().performChanges({PHAssetChangeRequest.deleteAssets([asset] as NSFastEnumeration)}) { success, error in
+//            if success {
+//
+//                OperationQueue.main.addOperation {
+//                    reqeustsPhotoPermission()
+//                    representImage = UIImage(named: "defaultImage")!
+//                    self.collectionVeiw.reloadData()
+//
+//                    guard let asset: PHAsset = fetchResult?.object(at: 0) else {
+//                        return
+//                    }
+//
+//
+//                    self.imageManager.requestImage(for: asset, targetSize: CGSize(width: 300, height: 300), contentMode: .aspectFit, options: nil) { image, _ in
+//
+//                        representImage2 = image!
+//
+//                    }
+//                }
+//
+//            }
+//
+//
+//        }
+//
+//    }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("you selected cell \(indexPath.item)")
+        
+        let strData = fetchResult[indexPath.row]
+        
+        if arrSelectedIndex.contains(indexPath) {
+            arrSelectedIndex = arrSelectedIndex.filter{$0 != indexPath}
+            arrSelectedData = arrSelectedData.filter{$0 != strData}
+        } else {
+            arrSelectedIndex.append(indexPath)
+            arrSelectedData.append(strData)
+        }
+        collectionView.reloadData()
     }
 }
