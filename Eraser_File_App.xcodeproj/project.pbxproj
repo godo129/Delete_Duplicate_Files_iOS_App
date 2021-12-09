@@ -13,6 +13,8 @@
 		F1608097275E2F8300D8356E /* emptyBox.json in Resources */ = {isa = PBXBuildFile; fileRef = F1608096275E2F8300D8356E /* emptyBox.json */; };
 		F1608099275E2F9200D8356E /* findDocuments.json in Resources */ = {isa = PBXBuildFile; fileRef = F1608098275E2F9200D8356E /* findDocuments.json */; };
 		F160809C275E947700D8356E /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = F160809B275E947700D8356E /* Button.swift */; };
+		F16080BE276257EF00D8356E /* fileList.json in Resources */ = {isa = PBXBuildFile; fileRef = F16080BD276257EF00D8356E /* fileList.json */; };
+		F16080C027625B3700D8356E /* deleteAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = F16080BF27625B3700D8356E /* deleteAnimation.json */; };
 		F1808326275B300900F6A9CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1808325275B300900F6A9CC /* AppDelegate.swift */; };
 		F1808328275B300900F6A9CC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1808327275B300900F6A9CC /* SceneDelegate.swift */; };
 		F180832A275B300900F6A9CC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1808329275B300900F6A9CC /* ViewController.swift */; };
@@ -35,6 +37,8 @@
 		F1608096275E2F8300D8356E /* emptyBox.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = emptyBox.json; path = ../../../animation/emptyBox.json; sourceTree = "<group>"; };
 		F1608098275E2F9200D8356E /* findDocuments.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = findDocuments.json; path = ../../../animation/findDocuments.json; sourceTree = "<group>"; };
 		F160809B275E947700D8356E /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
+		F16080BD276257EF00D8356E /* fileList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = fileList.json; path = ../../../animation/fileList.json; sourceTree = "<group>"; };
+		F16080BF27625B3700D8356E /* deleteAnimation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = deleteAnimation.json; path = ../../../animation/deleteAnimation.json; sourceTree = "<group>"; };
 		F1808322275B300900F6A9CC /* Eraser_File_App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eraser_File_App.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1808325275B300900F6A9CC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F1808327275B300900F6A9CC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -82,7 +86,9 @@
 		F1608093275DD79500D8356E /* animation */ = {
 			isa = PBXGroup;
 			children = (
+				F16080BD276257EF00D8356E /* fileList.json */,
 				F1608096275E2F8300D8356E /* emptyBox.json */,
+				F16080BF27625B3700D8356E /* deleteAnimation.json */,
 				F1608098275E2F9200D8356E /* findDocuments.json */,
 			);
 			path = animation;
@@ -213,9 +219,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				F1808332275B300B00F6A9CC /* LaunchScreen.storyboard in Resources */,
+				F16080BE276257EF00D8356E /* fileList.json in Resources */,
 				F1608099275E2F9200D8356E /* findDocuments.json in Resources */,
 				F1608097275E2F8300D8356E /* emptyBox.json in Resources */,
 				F180832F275B300B00F6A9CC /* Assets.xcassets in Resources */,
+				F16080C027625B3700D8356E /* deleteAnimation.json in Resources */,
 				F180832D275B300900F6A9CC /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
