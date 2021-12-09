@@ -8,13 +8,13 @@
 import UIKit
 import Photos
 
-var arrData = [PHAsset]()
-var arrSelectedIndex = [IndexPath]()
-var arrSelectedData = [PHAsset]()
+
 
 class ViewController: UIViewController {
     
 
+    var arrSelectedIndex = [IndexPath]()
+    var arrSelectedData = [PHAsset]()
     
     let tableView = UITableView()
     
@@ -116,7 +116,7 @@ class ViewController: UIViewController {
     
     @objc private func deleteAllButtonTapped() {
       
-        PHPhotoLibrary.shared().performChanges({PHAssetChangeRequest.deleteAssets(arrSelectedData as NSFastEnumeration)}) { success, error in
+        PHPhotoLibrary.shared().performChanges({PHAssetChangeRequest.deleteAssets(self.arrSelectedData as NSFastEnumeration)}) { success, error in
                     if success {
         
                         OperationQueue.main.addOperation {
@@ -128,12 +128,14 @@ class ViewController: UIViewController {
                                 return
                             }
                             
-                            for index in arrSelectedIndex {
+                            self.arrSelectedIndex.sort(by: >)
+                            
+                            for index in self.arrSelectedIndex {
                                 self.collectionVeiw.cellForItem(at: index)?.isSelected = false
                             }
                             
-                            arrSelectedIndex.removeAll()
-                            arrSelectedData.removeAll()
+                            self.arrSelectedIndex.removeAll()
+                            self.arrSelectedData.removeAll()
 
                             self.imageManager.requestImage(for: asset, targetSize: CGSize(width: 300, height: 300), contentMode: .aspectFit, options: nil) { image, _ in
         
