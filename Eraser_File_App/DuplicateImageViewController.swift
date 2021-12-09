@@ -146,9 +146,7 @@ class DuplicateImageViewController: UIViewController {
     }
     
     @objc private func deleteButtonTapped() {
-        
-        
-        
+ 
         
             var toDelNum = 0
             var toDelAssets: [PHAsset] = []
@@ -165,6 +163,8 @@ class DuplicateImageViewController: UIViewController {
         
         
             PHPhotoLibrary.shared().performChanges({PHAssetChangeRequest.deleteAssets(toDelAssets as NSFastEnumeration)}) { success, error in
+                
+                
                 if success {
                     duplicateImageCount -= toDelNum
                     
@@ -172,12 +172,13 @@ class DuplicateImageViewController: UIViewController {
                     
                     for indexPath in self.arrSelectedIndex {
                         
-                        self.collectionView.cellForItem(at: indexPath)?.isSelected = false
+                        
                         
                         duplicateLists.removeValue(forKey: duplicateImageData[indexPath.row])
                         
      
                         OperationQueue.main.addOperation {
+                            self.collectionView.cellForItem(at: indexPath)?.isSelected = false
                             self.collectionView.deleteItems(at: [indexPath])
                             self.collectionView.reloadData()
                                             if duplicateImageCount <= 0 {
