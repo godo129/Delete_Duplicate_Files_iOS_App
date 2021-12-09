@@ -49,7 +49,6 @@ class ViewController: UIViewController {
         
         reqeustsPhotoPermission()
         
-        deleteButton.frame = CGRect(x: 400, y: 50, width: 50, height: 50)
         deleteButton.backgroundColor = .systemRed
         
         

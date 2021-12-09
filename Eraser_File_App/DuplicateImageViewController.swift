@@ -75,6 +75,8 @@ class DuplicateImageViewController: UIViewController {
         
         print(duplicateLists)
         print(duplicateImageData)
+        
+        collectionView.allowsSelection = true
 
     }
     

@@ -20,6 +20,16 @@ class HomeViewController: UIViewController {
     
     let filemg = FileManager.default
     
+    private let topAnimationView: AnimationView = {
+        var topAnimationView = AnimationView()
+        topAnimationView = .init(name: "deleteAnimation")
+        topAnimationView.play()
+        topAnimationView.loopMode = .loop
+        topAnimationView.animationSpeed = 1.2
+        
+        return topAnimationView
+    }()
+    
     private let imageController: FSPagerView = {
         var imageConroller = FSPagerView()
         imageConroller.transformer = FSPagerViewTransformer(type: .zoomOut)
@@ -48,15 +58,27 @@ class HomeViewController: UIViewController {
         chooseFileURL.loopMode = .loop
         chooseFileURL.layer.borderWidth = 2
         chooseFileURL.layer.borderColor = UIColor.black.cgColor
-        chooseFileURL.layer.shadowColor = UIColor.gray.cgColor
-        chooseFileURL.layer.shadowRadius = 5
-//        chooseFileURL.layer.shadowOpacity = 1
-//        chooseFileURL.layer.shadowOffset = CGSize(width: 3, height: 3)
+//        chooseFileURL.layer.shadowColor = UIColor.gray.cgColor
+//        chooseFileURL.layer.shadowRadius = 5
         return chooseFileURL
     }()
     
+    private let fileListView: AnimationView = {
+        var fileListView = AnimationView()
+        fileListView = .init(name: "fileList")
+        fileListView.play()
+        fileListView.loopMode = .loop
+        fileListView.layer.borderColor = UIColor.black.cgColor
+        fileListView.layer.borderWidth =  2
+        return fileListView
+    }()
     
+    private let fileListButton: UIButton = {
+        let fileListButton = UIButton()
+        return fileListButton
+    }()
     
+  
     private let FileViewButton: UIButton = {
         let FileViewButton = UIButton()
         FileViewButton.backgroundColor = .systemPink
@@ -83,10 +105,10 @@ class HomeViewController: UIViewController {
         imageController.dataSource = self
         view.addSubview(imageController)
         
-
-        WatchDuplicateButton.addTarget(self, action: #selector(WatchDuplicateButtonTapped), for: .touchUpInside)
-        
-        WatchDuplicateViewButton.addTarget(self, action: #selector(WatchDuplicateViewButtonTapped), for: .touchUpInside)
+//
+//        WatchDuplicateButton.addTarget(self, action: #selector(WatchDuplicateButtonTapped), for: .touchUpInside)
+//
+//        WatchDuplicateViewButton.addTarget(self, action: #selector(WatchDuplicateViewButtonTapped), for: .touchUpInside)
         
         FileViewButton.addTarget(self, action: #selector(FileViewButtonTapped), for: .touchUpInside)
         getRootURL.addTarget(self, action: #selector(getRootURLTapped), for: .touchUpInside)
@@ -99,6 +121,16 @@ class HomeViewController: UIViewController {
         notificationCenter.addObserver(self, selector: #selector(appCameToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
         
         registerPhotoLibrary()
+        
+        
+        
+        fileListView.backgroundBehavior = .pauseAndRestore
+        view.addSubview(fileListView)
+        view.addSubview(fileListButton)
+        fileListButton.addTarget(self, action: #selector(fileListButtonTapped), for: .touchUpInside)
+        
+        topAnimationView.backgroundBehavior = .pauseAndRestore
+        view.addSubview(topAnimationView)
         
 
     }
@@ -140,17 +172,22 @@ class HomeViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        imageController.frame = CGRect(x: 30, y: 100, width: view.frame.width-60, height: 300)
+        topAnimationView.frame = CGRect(x: view.frame.size.width-200, y: 70, width: 300, height: 100)
+        
+        imageController.frame = CGRect(x: 30, y: 150, width: view.frame.width-60, height: 300)
         
 //        WatchDuplicateButton.frame = CGRect(x: 30, y: 100, width: view.frame.width-60, height: 300)
 //
 //        WatchDuplicateViewButton.frame = CGRect(x: 30, y: 600, width: view.frame.width-60, height: 300)
         
 //        FileViewButton.frame = CGRect(x: 30, y: 350, width: view.frame.width-260, height: 200)
-        chooseFileURL.frame = CGRect(x: 30, y: imageController.frame.origin.y+400, width: view.frame.width-60, height: 250)
+        chooseFileURL.frame = CGRect(x: 30, y: imageController.frame.origin.y+450, width: view.frame.width-60, height: 250)
 //        getRootURL.frame = CGRect(x: FileViewButton.frame.origin.x
 //                                    + FileViewButton.frame.width, y: FileViewButton.frame.origin.y, width: 300, height: 200)
         getRootURL.frame = chooseFileURL.frame
+        
+        fileListButton.frame = CGRect(x: 30, y: chooseFileURL.frame.origin.y-120, width: view.frame.width-60, height: 100)
+        fileListView.frame = fileListButton.frame
     }
     
     
@@ -162,6 +199,13 @@ class HomeViewController: UIViewController {
         moveView(viewName: "DuplicateView")
     }
     
+    @objc private func fileListButtonTapped() {
+        let documentPikcer = UIDocumentPickerViewController(forOpeningContentTypes: [.data])
+        documentPikcer.shouldShowFileExtensions = true
+        documentPikcer.allowsMultipleSelection = true 
+        self.present(documentPikcer, animated: true, completion: nil)
+    }
+    
     @objc private func getRootURLTapped() {
         
         let alert = UIAlertController(title: "", message: "중복된 폴더를 제거하고 싶은 파일을 선택해주세요", preferredStyle: .alert)
@@ -169,7 +213,6 @@ class HomeViewController: UIViewController {
             let documentPikcer = UIDocumentPickerViewController(forOpeningContentTypes: [.folder])
             documentPikcer.delegate = self
             documentPikcer.shouldShowFileExtensions = true
-    //        documentPikcer.allowsMultipleSelection = true
             self.present(documentPikcer, animated: true, completion: nil)
         }))
         
@@ -294,7 +337,6 @@ extension HomeViewController: UIDocumentPickerDelegate {
         
         rootURL = urls.first?.deletingLastPathComponent()
         
-        print(rootURL)
         
 //        guard let selectedFileURL = urls.first else {
 //            return
@@ -349,13 +391,12 @@ extension HomeViewController: FSPagerViewDelegate,FSPagerViewDataSource {
         switch index {
         case 0:
             cell.imageView?.image = representImage
-            cell.textLabel?.text = "\(duplicateImageCount)"
+            cell.textLabel?.text = "\(duplicateImageCount)개의 중복된 사진 존재"
             cell.textLabel?.textAlignment = .center
             cell.textLabel?.backgroundColor = .clear
-            cell.textLabel?.textColor = .black
         default:
             cell.imageView?.image = representImage2
-            cell.textLabel?.text = "사진 정보 보기"
+            cell.textLabel?.text = "사진 파일 보기"
         }
     
         
