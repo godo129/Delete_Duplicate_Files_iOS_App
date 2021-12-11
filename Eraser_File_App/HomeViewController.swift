@@ -173,22 +173,51 @@ class HomeViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        topAnimationView.frame = CGRect(x: view.frame.size.width-200, y: 70, width: 300, height: 100)
+//        topAnimationView.frame = CGRect(x: view.frame.size.width-200, y: 70, width: 300, height: 100)
         
-        imageController.frame = CGRect(x: 30, y: 150, width: view.frame.width-60, height: 300)
+        topAnimationView.snp.makeConstraints { (make) in
+            make.top.equalTo(self.view.safeAreaLayoutGuide).offset(10)
+            make.right.equalTo(self.view.safeAreaLayoutGuide).offset(0)
+            make.size.equalTo(CGSize(width: 100, height: 100))
+        }
+        
+        imageController.snp.makeConstraints { (make) in
+            make.top.equalTo(topAnimationView).offset(80)
+            make.right.equalTo(self.view.safeAreaLayoutGuide).offset(-30)
+            make.left.equalTo(self.view.safeAreaLayoutGuide).offset(30)
+            make.bottom.equalTo(-self.view.frame.height/2)
+        }
+        
+//        imageController.frame = CGRect(x: 30, y: 150, width: view.frame.width-60, height: 300)
         
 //        WatchDuplicateButton.frame = CGRect(x: 30, y: 100, width: view.frame.width-60, height: 300)
 ////
 //        WatchDuplicateViewButton.frame = CGRect(x: 30, y: 600, width: view.frame.width-60, height: 300)
         
 //        FileViewButton.frame = CGRect(x: 30, y: 350, width: view.frame.width-260, height: 200)
-        chooseFileURL.frame = CGRect(x: 30, y: imageController.frame.origin.y+450, width: view.frame.width-60, height: 250)
+        
+//        fileListButton.frame = CGRect(x: 30, y: chooseFileURL.frame.origin.y-120, width: view.frame.width-60, height: 100)
+        fileListButton.snp.makeConstraints { (make) in
+            make.top.equalTo(imageController.snp.bottom).offset(20)
+            make.right.equalTo(imageController)
+            make.left.equalTo(imageController)
+            make.bottom.equalTo(-self.view.frame.height/3)
+        }
+        
+        fileListView.frame = fileListButton.frame
+        
+        chooseFileURL.snp.makeConstraints { (make) in
+            make.top.equalTo(fileListButton.snp.bottom).offset(20)
+            make.right.equalTo(imageController)
+            make.left.equalTo(imageController)
+            make.bottom.equalTo(-50)
+        }
+//        chooseFileURL.frame = CGRect(x: 30, y: imageController.frame.origin.y+450, width: view.frame.width-60, height: 250)
 //        getRootURL.frame = CGRect(x: FileViewButton.frame.origin.x
 //                                    + FileViewButton.frame.width, y: FileViewButton.frame.origin.y, width: 300, height: 200)
         getRootURL.frame = chooseFileURL.frame
         
-        fileListButton.frame = CGRect(x: 30, y: chooseFileURL.frame.origin.y-120, width: view.frame.width-60, height: 100)
-        fileListView.frame = fileListButton.frame
+        
     }
     
     
