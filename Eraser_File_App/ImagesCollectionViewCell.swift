@@ -12,7 +12,7 @@ class ImagesCollectionViewCell: UICollectionViewCell {
             let ExerciseImage = UIImageView()
             ExerciseImage.backgroundColor = .white
             ExerciseImage.clipsToBounds = true
-            ExerciseImage.contentMode = .scaleAspectFill
+        ExerciseImage.contentMode = .scaleAspectFill
             return ExerciseImage
         }()
         
@@ -31,6 +31,22 @@ class ImagesCollectionViewCell: UICollectionViewCell {
             return ExerciseLabel
             
         }()
+    
+    var CountLabel: UILabel = {
+        let ExerciseLabel = UILabel()
+        ExerciseLabel.backgroundColor = UIColor(red: 240.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1)
+//            ExerciseLabel.backgroundColor = .clear
+        ExerciseLabel.textAlignment = .center
+        ExerciseLabel.textColor = .black
+        ExerciseLabel.font = .systemFont(ofSize: 15, weight: .bold)
+        ExerciseLabel.clipsToBounds = true
+        ExerciseLabel.layer.masksToBounds = true
+        ExerciseLabel.layer.borderWidth = 4
+        ExerciseLabel.layer.borderColor = UIColor.black.cgColor
+        ExerciseLabel.layer.cornerRadius = ExerciseLabel.bounds.size.width/2
+        return ExerciseLabel
+        
+    }()
     
     var highlightedIndicator: UIView = {
         let highlightedIndicator = UIView()
@@ -57,6 +73,8 @@ class ImagesCollectionViewCell: UICollectionViewCell {
             selectedIndicator.isHidden = true
 
             contentView.addSubview(highlightedIndicator)
+            
+            contentView.addSubview(CountLabel)
             
         
         }
@@ -118,6 +136,8 @@ class ImagesCollectionViewCell: UICollectionViewCell {
                                          y: contentView.frame.size.height-30,
                                          width: contentView.frame.size.width,
                                          height: 30)
+            
+            CountLabel.frame = CGRect(x: contentView.frame.size.width-30, y: 0, width: 30, height: 30)
             
             selectedIndicator.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         }

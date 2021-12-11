@@ -53,6 +53,8 @@ class DuplicateFileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print(rootURL)
 
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -191,6 +193,7 @@ class DuplicateFileViewController: UIViewController {
                 
             self.emptyAnimaton.isHidden = false
             self.deleteAllButton.isHidden = true
+            self.deleteButton.isHidden = true 
             
             self.collectionView.removeFromSuperview()
             
@@ -307,7 +310,8 @@ extension DuplicateFileViewController: UICollectionViewDataSource, UICollectionV
         
         cell.ExerciseImage.image = UIImage(data: duplicateFileData[indexPath.row])
         let fileName = duplicateFileLists[duplicateFileData[indexPath.row]]![0].lastPathComponent.description
-        cell.ExerciseLabel.text = "\(fileName) \(duplicateFileLists[duplicateFileData[indexPath.row]]!.count)"
+        cell.ExerciseLabel.text = "\(fileName)"
+        cell.CountLabel.text = "\(duplicateFileLists[duplicateFileData[indexPath.row]]!.count)"
         
         cell.layer.borderWidth = 2
         cell.layer.borderColor = UIColor.black.cgColor

@@ -9,6 +9,7 @@ import UIKit
 import Photos
 import Lottie
 import FSPagerView
+import SnapKit
 
 let WatchDuplicateViewButton: UIButton = {
     let WatchDuplicateButton = UIButton()
@@ -41,7 +42,7 @@ class HomeViewController: UIViewController {
     
     private let WatchDuplicateButton: UIButton = {
         let WatchDuplicateButton = UIButton()
-        WatchDuplicateButton.backgroundColor = .purple
+        WatchDuplicateButton.setImage(representImage, for: .normal)
         return WatchDuplicateButton
     }()
     
@@ -177,7 +178,7 @@ class HomeViewController: UIViewController {
         imageController.frame = CGRect(x: 30, y: 150, width: view.frame.width-60, height: 300)
         
 //        WatchDuplicateButton.frame = CGRect(x: 30, y: 100, width: view.frame.width-60, height: 300)
-//
+////
 //        WatchDuplicateViewButton.frame = CGRect(x: 30, y: 600, width: view.frame.width-60, height: 300)
         
 //        FileViewButton.frame = CGRect(x: 30, y: 350, width: view.frame.width-260, height: 200)
