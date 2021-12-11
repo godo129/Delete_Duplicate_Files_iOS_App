@@ -10,7 +10,11 @@
 
 # 홈 화면 
 
-![image](https://user-images.githubusercontent.com/76652929/145674786-cd449fe0-63c6-4c3e-a3bf-499fad4e88ef.png)
+
+
+https://user-images.githubusercontent.com/76652929/145675480-5fa9da32-fca4-45f7-adaa-9c0eb9f4e84d.mov
+
+
 
 
 # 사진 관리 기능 
