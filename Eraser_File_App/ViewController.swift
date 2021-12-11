@@ -213,6 +213,7 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
         imageManager.requestImage(for: asset, targetSize: CGSize(width: 300, height: 300), contentMode: .aspectFit, options: nil) { image, _ in
             cell.ExerciseImage.image = image
             cell.ExerciseLabel.isHidden = true
+            cell.CountLabel.isHidden = true 
         }
         cell.layer.borderWidth = 2
         cell.layer.borderColor = UIColor.black.cgColor

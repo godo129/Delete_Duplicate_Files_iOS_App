@@ -277,6 +277,7 @@ extension DuplicateImageViewController: UICollectionViewDataSource, UICollection
         
         cell.ExerciseImage.image = UIImage(data: duplicateImageData[indexPath.row])!
         cell.ExerciseLabel.text = "\(duplicateLists[duplicateImageData[indexPath.row]]!.count)"
+        cell.CountLabel.isHidden = true 
         
         cell.layer.borderWidth = 2
         cell.layer.borderColor = UIColor.black.cgColor
