@@ -110,8 +110,12 @@ class ViewController: UIViewController {
         deleteAllButton.addTarget(self, action: #selector(deleteAllButtonTapped), for: .touchUpInside)
         
 
-
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         
+        NotificationCenter.default.post(name: InfoUpdateNoti, object: nil)
     }
     
     @objc private func deleteAllButtonTapped() {

@@ -99,6 +99,12 @@ class DuplicateImageViewController: UIViewController {
 
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        NotificationCenter.default.post(name: InfoUpdateNoti, object: nil)
+    }
+    
     private func registerPhotoLibrary() {
         PHPhotoLibrary.shared().register(self)
     }

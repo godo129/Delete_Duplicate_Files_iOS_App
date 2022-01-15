@@ -133,15 +133,15 @@ class HomeViewController: UIViewController {
         topAnimationView.backgroundBehavior = .pauseAndRestore
         view.addSubview(topAnimationView)
         
+        let notificationCenter2 = NotificationCenter.default
+        notificationCenter2.addObserver(self, selector: #selector(imageControllerUpdate), name: InfoUpdateNoti, object: nil)
+        
 
     }
-//
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//
-//
-//
-//    }
+    
+    @objc func imageControllerUpdate() {
+        imageController.reloadData()
+    }
     
     @objc func appCameToForeground() {
         
