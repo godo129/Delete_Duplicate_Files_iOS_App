@@ -230,7 +230,7 @@ class HomeViewController: UIViewController {
     }
     
     @objc private func fileListButtonTapped() {
-        let documentPikcer = UIDocumentPickerViewController(forOpeningContentTypes: [.data])
+        let documentPikcer = UIDocumentPickerViewController(forOpeningContentTypes: [.directory])
         documentPikcer.shouldShowFileExtensions = true
         documentPikcer.allowsMultipleSelection = true 
         self.present(documentPikcer, animated: true, completion: nil)
@@ -270,70 +270,91 @@ class HomeViewController: UIViewController {
     }
     
     private func getData(fileUrl: URL) {
-        
-        
-        do {
-            
-            let contensts = try filemg.contentsOfDirectory(at: fileUrl, includingPropertiesForKeys: nil)
  
-            for content in contensts {
-                if let item = filemg.contents(atPath: content.path) {
-                    let fileData = File(url: content, data: item)
-                    
-                    if !fileURLLists.contains(fileData.data) {
-//                        contentLists.append(fileData.data)
-                        
-                        fileURLLists.append(fileData.data)
-                        let empty: [URL] = []
-                        duplicateFileLists[fileData.data] = empty
-                    } else {
-                        
-                        var urlLists: [URL] = duplicateFileLists[fileData.data]!
-                        
-                        if urlLists.count == 0 {
-                            duplicateFileData.append(fileData.data)
-                        }
-                        urlLists.append(fileData.url)
-                        duplicateFileLists[fileData.data] = urlLists
-                        
-//                        try filemg.removeItem(at: fileData.url)
-//                        print(fileData.url)
-//                        print(fileData.data)
-//
-//                        imageView.image = UIImage(data: fileData.data)
-                    }
-                    
-                } else {
-                    // 자동으로 하위 디렉토리 정리해줌
-                    getData(fileUrl: content)
+
+        do {
+            // 이걸해야 접근 가능
+            if fileUrl.startAccessingSecurityScopedResource() {
+                
+                let items = try filemg.contentsOfDirectory(atPath: fileUrl.path)
+
+                for item in items {
+                    print("Found \(item)")
                 }
             }
-//
-//            print(fileURLLists)
-//            print(duplicateFileLists)
             
         } catch {
-            print("error ocurred ")
+            print(error.localizedDescription)
         }
         
-        
-        // 매체 없는 파일 삭제
+
         do {
             
-            let contents = try filemg.contentsOfDirectory(at: fileUrl, includingPropertiesForKeys: nil)
+            if fileUrl.startAccessingSecurityScopedResource() {
+                
+                let contensts = try filemg.contentsOfDirectory(at: fileUrl, includingPropertiesForKeys: nil)
+                
+                for content in contensts {
+                    if let item = filemg.contents(atPath: content.path) {
+                        let fileData = File(url: content, data: item)
+                        
+                        if !fileURLLists.contains(fileData.data) {
+    //                        contentLists.append(fileData.data)
+                            
+                            fileURLLists.append(fileData.data)
+                            let empty: [URL] = []
+                            duplicateFileLists[fileData.data] = empty
+                        } else {
+                            
+                            var urlLists: [URL] = duplicateFileLists[fileData.data]!
+                            
+                            if urlLists.count == 0 {
+                                duplicateFileData.append(fileData.data)
+                            }
+                            urlLists.append(fileData.url)
+                            duplicateFileLists[fileData.data] = urlLists
+                            
+    //                        try filemg.removeItem(at: fileData.url)
+    //                        print(fileData.url)
+    //                        print(fileData.data)
+    //
+    //                        imageView.image = UIImage(data: fileData.data)
+                        }
+                        
+                    } else {
+                        // 자동으로 하위 디렉토리 정리해줌
+                        getData(fileUrl: content)
+                    }
+                
+            }
             
-            if contents.isEmpty {
-                try filemg.removeItem(at: fileUrl)
+            
             }
             
         } catch {
-            do {
-                try filemg.removeItem(at: fileUrl)
-            } catch{
-                print("nonono")
-            }
-            
+            print(error.localizedDescription)
         }
+        
+        print(fileURLLists)
+        
+        
+//        // 매체 없는 파일 삭제
+//        do {
+//            
+//            let contents = try filemg.contentsOfDirectory(at: fileUrl, includingPropertiesForKeys: nil)
+//            
+//            if contents.isEmpty {
+//                try filemg.removeItem(at: fileUrl)
+//            }
+//            
+//        } catch {
+//            do {
+//                try filemg.removeItem(at: fileUrl)
+//            } catch{
+//                print("nonono")
+//            }
+//            
+//        }
         
         
     }
@@ -365,14 +386,31 @@ extension HomeViewController: PHPhotoLibraryChangeObserver {
 extension HomeViewController: UIDocumentPickerDelegate {
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         
-        rootURL = urls.first?.deletingLastPathComponent()
+        guard let rootURL = urls.first else {return}
         
+//        guard controller.documentPickerMode == .open, let url = urls.first, url.startAccessingSecurityScopedResource() else { return }
+//        defer {
+//            DispatchQueue.main.async {
+//                url.stopAccessingSecurityScopedResource()
+//            }
+//        }
+//
+//        do {
+//            let document = try Data(contentsOf: url.absoluteURL)
+//
+//            print("File Selected: " + url.path)
+//        }
+//        catch {
+//            print("Error selecting file: " + error.localizedDescription)
+//        }
+//
+//
+//
         
+//
 //        guard let selectedFileURL = urls.first else {
 //            return
 //        }
-        
-        
 //        let dir = filemg.urls(for: .documentDirectory, in: .userDomainMask).first!
 //        let sandboxFileURL = dir.appendingPathComponent(selectedFileURL.lastPathComponent)
 //
