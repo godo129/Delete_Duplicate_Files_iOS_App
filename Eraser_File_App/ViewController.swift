@@ -103,8 +103,6 @@ class ViewController: UIViewController {
         
         registerPhotoLibrary()
         
-        print(duplicateImageData)
-        print(duplicateLists)
         
         view.addSubview(deleteAllButton)
         deleteAllButton.addTarget(self, action: #selector(deleteAllButtonTapped), for: .touchUpInside)

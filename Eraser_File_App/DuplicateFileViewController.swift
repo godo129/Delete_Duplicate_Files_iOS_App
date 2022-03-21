@@ -54,7 +54,7 @@ class DuplicateFileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(rootURL)
+        print(duplicateLists)
 
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -130,10 +130,9 @@ class DuplicateFileViewController: UIViewController {
                 }
             
                 duplicateFileLists.removeValue(forKey: duplicateFileData[indexPath.row])
+
             
-                var empty: [URL] = []
-            
-                duplicateFileLists[duplicateFileData[indexPath.row]] = empty
+                duplicateFileLists[duplicateFileData[indexPath.row]] = [URL]()
             
                 duplicateFileData.remove(at: indexPath.row)
             
@@ -213,68 +212,89 @@ class DuplicateFileViewController: UIViewController {
     private func getData(fileUrl: URL) {
         
         
-        do {
+        // 이걸 해 줘야 접근 가능
+        if fileUrl.startAccessingSecurityScopedResource() {
             
-            let contensts = try filemg.contentsOfDirectory(at: fileUrl, includingPropertiesForKeys: nil)
- 
-            for content in contensts {
-                if let item = filemg.contents(atPath: content.path) {
-                    let fileData = File(url: content, data: item)
-                    
-                    if !fileURLLists.contains(fileData.data) {
-//                        contentLists.append(fileData.data)
+            do {
+                
+                let items = try filemg.contentsOfDirectory(atPath: fileUrl.path)
+                
+                for item in items {
+                    print("Found \(item)")
+                }
+                
+                
+            } catch {
+                print(error.localizedDescription)
+            }
+            
+            
+            do {
+                
+                
+                let contensts = try filemg.contentsOfDirectory(at: fileUrl, includingPropertiesForKeys: nil)
+                
+                for content in contensts {
+                    if let item = filemg.contents(atPath: content.path) {
+                        print(item.description)
+                        let fileData = File(url: content, data: item)
                         
-                        fileURLLists.append(fileData.data)
-                        let empty: [URL] = []
-                        duplicateFileLists[fileData.data] = empty
-                    } else {
-                        duplicateFileCount += 1
-                        
-                        var urlLists: [URL] = duplicateFileLists[fileData.data]!
-                        
-                        if urlLists.count == 0 {
-                            duplicateFileData.append(fileData.data)
+                        if !fileURLLists.contains(fileData.data) {
+                            
+                            fileURLLists.append(fileData.data)
+                            let empty: [URL] = []
+                            duplicateFileLists[fileData.data] = empty
+                        } else {
+                            
+                            var urlLists: [URL] = duplicateFileLists[fileData.data]!
+                            
+                            if urlLists.count == 0 {
+                                duplicateFileData.append(fileData.data)
+                            }
+                            urlLists.append(fileData.url)
+                            duplicateFileLists[fileData.data] = urlLists
+                            
                         }
-                        urlLists.append(fileData.url)
-                        duplicateFileLists[fileData.data] = urlLists
                         
-//                        try filemg.removeItem(at: fileData.url)
-//                        print(fileData.url)
-//                        print(fileData.data)
-//                        
-//                        imageView.image = UIImage(data: fileData.data)
+                    } else {
+                        // 자동으로 하위 디렉토리 정리해줌
+                        getData(fileUrl: content)
                     }
                     
-                } else {
-                    // 자동으로 하위 디렉토리 정리해줌
-                    getData(fileUrl: content)
                 }
-            }
-//
-//            print(fileURLLists)
-//            print(duplicateFileLists)
-            
-        } catch {
-            print("error ocurred ")
-        }
-        
-        
-        // 매체 없는 파일 삭제
-        do {
-            
-            let contents = try filemg.contentsOfDirectory(at: fileUrl, includingPropertiesForKeys: nil)
-            
-            if contents.isEmpty {
-                try filemg.removeItem(at: fileUrl)
+                
+                
+                
+            } catch {
+                print(error.localizedDescription)
             }
             
-        } catch {
+            print(duplicateFileLists)
+            
+            
+            // 매체 없는 파일 삭제
+            
+     
+            
             do {
-                try filemg.removeItem(at: fileUrl)
-            } catch{
-                print("nonono")
+                
+                let contents = try filemg.contentsOfDirectory(at: fileUrl, includingPropertiesForKeys: nil)
+                
+                if contents.isEmpty {
+                    try filemg.removeItem(at: fileUrl)
+                }
+                
+            } catch {
+                do {
+                    try filemg.removeItem(at: fileUrl)
+                } catch{
+                    print("nonono")
+                }
+                
             }
             
+           
+
         }
         
         

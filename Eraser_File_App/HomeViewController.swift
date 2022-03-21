@@ -270,36 +270,36 @@ class HomeViewController: UIViewController {
     }
     
     private func getData(fileUrl: URL) {
- 
-
-        do {
-            // 이걸해야 접근 가능
-            if fileUrl.startAccessingSecurityScopedResource() {
+        
+        
+        // 이걸 해 줘야 접근 가능
+        if fileUrl.startAccessingSecurityScopedResource() {
+            
+            do {
                 
                 let items = try filemg.contentsOfDirectory(atPath: fileUrl.path)
-
+                
                 for item in items {
                     print("Found \(item)")
                 }
+                
+                
+            } catch {
+                print(error.localizedDescription)
             }
             
-        } catch {
-            print(error.localizedDescription)
-        }
-        
-
-        do {
             
-            if fileUrl.startAccessingSecurityScopedResource() {
+            do {
+                
                 
                 let contensts = try filemg.contentsOfDirectory(at: fileUrl, includingPropertiesForKeys: nil)
                 
                 for content in contensts {
                     if let item = filemg.contents(atPath: content.path) {
+                        print(item.description)
                         let fileData = File(url: content, data: item)
                         
                         if !fileURLLists.contains(fileData.data) {
-    //                        contentLists.append(fileData.data)
                             
                             fileURLLists.append(fileData.data)
                             let empty: [URL] = []
@@ -314,51 +314,55 @@ class HomeViewController: UIViewController {
                             urlLists.append(fileData.url)
                             duplicateFileLists[fileData.data] = urlLists
                             
-    //                        try filemg.removeItem(at: fileData.url)
-    //                        print(fileData.url)
-    //                        print(fileData.data)
-    //
-    //                        imageView.image = UIImage(data: fileData.data)
                         }
                         
                     } else {
                         // 자동으로 하위 디렉토리 정리해줌
                         getData(fileUrl: content)
                     }
+                    
+                }
+                
+                
+                
+            } catch {
+                print(error.localizedDescription)
+            }
+            
+            print(duplicateFileLists)
+            
+            
+            // 매체 없는 파일 삭제
+            
+     
+            
+            do {
+                
+                let contents = try filemg.contentsOfDirectory(at: fileUrl, includingPropertiesForKeys: nil)
+                
+                if contents.isEmpty {
+                    try filemg.removeItem(at: fileUrl)
+                }
+                
+            } catch {
+                do {
+                    try filemg.removeItem(at: fileUrl)
+                } catch{
+                    print("nonono")
+                }
                 
             }
             
-            
-            }
-            
-        } catch {
-            print(error.localizedDescription)
+           
+
         }
-        
-        print(fileURLLists)
-        
-        
-//        // 매체 없는 파일 삭제
-//        do {
-//            
-//            let contents = try filemg.contentsOfDirectory(at: fileUrl, includingPropertiesForKeys: nil)
-//            
-//            if contents.isEmpty {
-//                try filemg.removeItem(at: fileUrl)
-//            }
-//            
-//        } catch {
-//            do {
-//                try filemg.removeItem(at: fileUrl)
-//            } catch{
-//                print("nonono")
-//            }
-//            
-//        }
         
         
     }
-
+    
+    
+    
+    
 }
 
 
