@@ -271,97 +271,125 @@ class HomeViewController: UIViewController {
     
     private func getData(fileUrl: URL) {
         
-        
         // 이걸 해 줘야 접근 가능
-        if fileUrl.startAccessingSecurityScopedResource() {
+        
+        guard fileUrl.startAccessingSecurityScopedResource() else {
+            print(fileUrl.lastPathComponent)
+            return
             
-            do {
-                
-                let items = try filemg.contentsOfDirectory(atPath: fileUrl.path)
-                
-                for item in items {
-                    print("Found \(item)")
-                }
-                
-                
-            } catch {
-                print(error.localizedDescription)
-            }
+        }
+        
+        
+        do {
             
             
-            do {
+            let contensts = try filemg.contentsOfDirectory(at: fileUrl, includingPropertiesForKeys: nil)
+            
+            for content in contensts {
                 
                 
-                let contensts = try filemg.contentsOfDirectory(at: fileUrl, includingPropertiesForKeys: nil)
                 
-                for content in contensts {
-                    if let item = filemg.contents(atPath: content.path) {
-                        print(item.description)
-                        let fileData = File(url: content, data: item)
+                // 폴더 안의 폴더 까지 데이터 얻기
+                do {
+                    
+                    
+                    let conts = try filemg.contentsOfDirectory(at: content, includingPropertiesForKeys: nil)
+                    
+                    for cont in conts {
                         
-                        if !fileURLLists.contains(fileData.data) {
+                        
+                        
+                        if let item = filemg.contents(atPath: cont.path) {
+                            let fileData = File(url: cont, data: item)
                             
-                            fileURLLists.append(fileData.data)
-                            let empty: [URL] = []
-                            duplicateFileLists[fileData.data] = empty
-                        } else {
-                            
-                            var urlLists: [URL] = duplicateFileLists[fileData.data]!
-                            
-                            if urlLists.count == 0 {
-                                duplicateFileData.append(fileData.data)
+                            if !fileURLLists.contains(fileData.data) {
+                                
+                                fileURLLists.append(fileData.data)
+                                let empty: [URL] = []
+                                duplicateFileLists[fileData.data] = empty
+                            } else {
+                                
+                                var urlLists: [URL] = duplicateFileLists[fileData.data]!
+                                
+                                if urlLists.count == 0 {
+                                    duplicateFileData.append(fileData.data)
+                                }
+                                urlLists.append(fileData.url)
+                                duplicateFileLists[fileData.data] = urlLists
+                                
                             }
-                            urlLists.append(fileData.url)
-                            duplicateFileLists[fileData.data] = urlLists
                             
                         }
                         
+                    }
+                    
+                    
+                    
+                } catch {
+                    print(error)
+                    print(2)
+                }
+                
+                
+                
+                if let item = filemg.contents(atPath: content.path) {
+                    let fileData = File(url: content, data: item)
+                    
+                    if !fileURLLists.contains(fileData.data) {
+                        
+                        fileURLLists.append(fileData.data)
+                        let empty: [URL] = []
+                        duplicateFileLists[fileData.data] = empty
                     } else {
-                        // 자동으로 하위 디렉토리 정리해줌
-                        getData(fileUrl: content)
+                        
+                        var urlLists: [URL] = duplicateFileLists[fileData.data]!
+                        
+                        if urlLists.count == 0 {
+                            duplicateFileData.append(fileData.data)
+                        }
+                        urlLists.append(fileData.url)
+                        duplicateFileLists[fileData.data] = urlLists
+                        
                     }
                     
                 }
                 
-                
-                
-            } catch {
-                print(error.localizedDescription)
             }
             
-            print(duplicateFileLists)
             
             
-            // 매체 없는 파일 삭제
-            
-     
-            
-            do {
-                
-                let contents = try filemg.contentsOfDirectory(at: fileUrl, includingPropertiesForKeys: nil)
-                
-                if contents.isEmpty {
-                    try filemg.removeItem(at: fileUrl)
-                }
-                
-            } catch {
-                do {
-                    try filemg.removeItem(at: fileUrl)
-                } catch{
-                    print("nonono")
-                }
-                
-            }
-            
-           
-
+        } catch {
+            print(error)
         }
         
+        //            print(duplicateFileLists)
         
+        
+        // 매체 없는 파일 삭제
+        
+//
+//
+//        do {
+//
+//            let contents = try filemg.contentsOfDirectory(at: fileUrl, includingPropertiesForKeys: nil)
+//
+//            if contents.isEmpty {
+//                try filemg.removeItem(at: fileUrl)
+//            }
+//
+//        } catch {
+//            do {
+//                try filemg.removeItem(at: fileUrl)
+//            } catch{
+//                print("nonono")
+//            }
+//
+//        }
+        
+   
     }
     
-    
-    
+
     
 }
 
@@ -431,15 +459,17 @@ extension HomeViewController: UIDocumentPickerDelegate {
 //            }
 //        }
         
-        var empty : [Data] = []
-        var ListsEmpty: [Data:[URL]] = [:]
         
-        fileURLLists = empty
-        duplicateFileData = empty
-        duplicateFileLists = ListsEmpty
+        fileURLLists = [Data]()
+        duplicateFileData = [Data]()
+        duplicateFileLists = [Data:[URL]]()
             
 
+            
         getData(fileUrl: rootURL)
+ 
+
+        
         
         moveView(viewName: "DuplicateFileView")
         
