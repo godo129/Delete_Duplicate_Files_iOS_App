@@ -230,7 +230,7 @@ class HomeViewController: UIViewController {
     }
     
     @objc private func fileListButtonTapped() {
-        let documentPikcer = UIDocumentPickerViewController(forOpeningContentTypes: [.directory])
+        let documentPikcer = UIDocumentPickerViewController(forOpeningContentTypes: [.content])
         documentPikcer.shouldShowFileExtensions = true
         documentPikcer.allowsMultipleSelection = true 
         self.present(documentPikcer, animated: true, completion: nil)
