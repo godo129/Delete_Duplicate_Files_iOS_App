@@ -48,12 +48,13 @@ class HomeViewController: UIViewController {
     
     private let getRootURL: UIButton = {
         let getRootURL = UIButton()
-        getRootURL.backgroundColor = .clear
+        getRootURL.backgroundColor = .white
         return getRootURL
     }()
     
     private let chooseFileURL: AnimationView = {
         var chooseFileURL = AnimationView()
+        chooseFileURL.backgroundColor = .white
         chooseFileURL = .init(name: "findDocuments")
         chooseFileURL.play()
         chooseFileURL.loopMode = .loop
@@ -66,6 +67,7 @@ class HomeViewController: UIViewController {
     
     private let fileListView: AnimationView = {
         var fileListView = AnimationView()
+        fileListView.backgroundColor = .white
         fileListView = .init(name: "fileList")
         fileListView.play()
         fileListView.loopMode = .loop
@@ -76,6 +78,7 @@ class HomeViewController: UIViewController {
     
     private let fileListButton: UIButton = {
         let fileListButton = UIButton()
+        fileListButton.backgroundColor = .white
         return fileListButton
     }()
     
@@ -98,8 +101,9 @@ class HomeViewController: UIViewController {
         
         // 백그라운드 갔다 와도 돌아가게
         chooseFileURL.backgroundBehavior = .pauseAndRestore
-        view.addSubview(chooseFileURL)
         view.addSubview(getRootURL)
+        view.addSubview(chooseFileURL)
+ 
         
         imageController.register(FSPagerViewCell.self, forCellWithReuseIdentifier: "photoCell")
         imageController.delegate = self
@@ -126,8 +130,9 @@ class HomeViewController: UIViewController {
         
         
         fileListView.backgroundBehavior = .pauseAndRestore
-        view.addSubview(fileListView)
         view.addSubview(fileListButton)
+        view.addSubview(fileListView)
+
         fileListButton.addTarget(self, action: #selector(fileListButtonTapped), for: .touchUpInside)
         
         topAnimationView.backgroundBehavior = .pauseAndRestore
